@@ -38,20 +38,6 @@ Parent: Condition
 // extension: selfReportedStatus for codeable concept same as "clinicalStatus"
 // code: ICD-10 F17.2 use german basis extension here and point to that in standard
 
-Profile: NicotineReducingCBTPlan
-Parent: CarePlan
-// * category // we could make some category codes like "cbt" or something
-* description 1..1 // in standard we should explain that this is the primary point of finding information for how the app works
-                    // f.e in a patient journal, this is what would explain what this app's treatment does
-* created 1..1 // when it was first created. for eila this is when starting to use app.
-* author 1..1 // extend/slice to only be "organization" reference. this should refer to the diga manufacturer
-// extensino - observation "selfReportedSmokingStatus", this will be like "began cutting down", "relapsed", "actively smoking", "quit" and provide a log over how its gone so far
-// extension - goal "becomeNicotineFree"or"quitsmoking" 1..1 category "behavioural" description fixed "quit smoking"
-* addresses 1..1 // fixed reference to the NicotineDependantCondition
-
-
-
-// Extension: Goal - quit smoking (fixed). Status must be set. We should somehow refer to F17.2 here probably so we get to use the german coding stuff
 
 //
 
