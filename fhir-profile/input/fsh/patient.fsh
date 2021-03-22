@@ -1,30 +1,42 @@
-Alias: ICD-DE = http://fhir.de/StructureDefinition/CodingICD10GM
-// Alias: ICD-DE = http://fhir.de/StructureDefinition/icd-10-gm-stern
-// Alias: ICD-DE = http://fhir.de/CodeSystem/dimdi/icd-10-gm
-// - it looks like we dont need to make a profile on "Patient" which changes anything. Maybe we should make an extension and add to it though, non-mandatory diga code?
+Profile: NicotineReducingPatient
+Parent: Patient
+* extension contains CommonNicotineTrigger named commonNicotineTrigger 0..*
+* extension contains EffectiveNicotineIntervention named effectiveNicotineIntervention 0..*
+
+Extension: CommonNicotineTrigger
+Id: common-nicotine-trigger
+Title: "Common Nicotine Trigger"
+Description: "Common trigger for the patient to start using nicotine substances (like smoking a cigarette). For example, a patient's most common trigger might be that they feel an urge to smoke when they just woke up, or when they are waiting for something or someone."
+* value[x] only Coding
+* valueCoding from TriggerCode
+
+ValueSet: TriggerCode
+* include codes from system TriggerCodeSystem
+
+CodeSystem: TriggerCodeSystem
+* #waiting "Waiting" "Waiting for something or someone"
+// TODO
+
+Extension: EffectiveNicotineIntervention
+Id: effective-nicotine-intervention
+Title: "Effective Nicotine Intervention"
+Description: "Effective interventions for when the patient has an urge to use nicotine substances (for example wants to smoke a cigarette). An example would be if asking that the patient take a glass of water when they feel the urge to smoke has been effective for this patient."
+* value[x] only Coding
+* valueCoding from EffectiveInterventionCode
+
+ValueSet: EffectiveInterventionCode
+* include codes from system EffectiveInterventionCodeSystem
+
+CodeSystem: EffectiveInterventionCodeSystem
+* #drink-water "Drink Water" "Taking a glass of water"
+// TODO
 
 
-// Wrapper resource for all the data. Personal details SHALL NOT be included: if you have this information, it should be provided in the linked Patient resource
-Profile: NicotineReducingPerson
-Parent: Person
-* name 0..1 // TODO SLICE THIS TO ONLY CONTAIN "use: nickname", see https://www.hl7.org/fhir/datatypes.html#HumanName, and specify in standard that this field is for "usernames", and real person info is in "patient"
-            // that also means that we need to say that patient->name cannot include "nickname" (?)
-* gender 0..0
-* birthDate 0..0
-* address 0..0
-* photo 0..0
-* telecom 0..0
-// * link 1..1 // -- only to a "patient" reference
-
-// * id etc.. https://simplifier.net/basisprofil-de-r4/identifierpid for german id profile
-
-
-
-Profile: NicotineDependanceCondition
+Profile: SelfReportedNicotineDependance
 Parent: Condition
-Id: nicotine-dependance-condition
-Title: "Nicotine Dependance Condition"
-Description: "A condition of nicotine dependance (F17.2 ICD-10) which is being treated. The condition and its status updates are self-reported by the patient."
+Id: self-reported-nicotine-dependance
+Title: "Self Reported Nicotine Dependance"
+Description: "A condition of nicotine dependance (F17.2 ICD-10). The condition and its status updates are self-reported by the patient."
 * bodySite 0..0
 * verificationStatus 0..0 // we remove all options to "diagnosticize" here ,because these apps do not diagnise anyone. they treat a diagnosis made by a doctor
 * recordedDate 0..0
