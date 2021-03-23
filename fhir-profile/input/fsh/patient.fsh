@@ -53,3 +53,18 @@ Description: "A condition of nicotine dependance (F17.2 ICD-10). The condition a
 * code.coding contains icd10 1..1 MS
 * code.coding[icd10] only http://fhir.de/StructureDefinition/CodingICD10GM  
 * code.coding[icd10].code = http://fhir.de/CodeSystem/dimdi/icd-10-gm#F17.2 
+* extension contains SelfReportedSmokingStatus named currentSelfReportedSmokingStatus 1..1
+* extension[currentSelfReportedSmokingStatus] ^short = "The latest smoking status that was reported by the patient"
+
+
+Instance: InlinePatient
+InstanceOf: NicotineReducingPatient
+Usage: #inline
+
+Instance: SelfReportedNicotineDependanceExample
+InstanceOf: SelfReportedNicotineDependance
+* extension[SelfReportedSmokingStatus].extension[status].valueCodeableConcept = #actively-smoking
+* extension[SelfReportedSmokingStatus].extension[reportedOn].valueDate = "2021-03-21"
+* code.coding[icd10].code = http://fhir.de/CodeSystem/dimdi/icd-10-gm#F17.2 
+* code.coding[icd10].version = "2020"
+* subject = Reference(InlinePatient)
