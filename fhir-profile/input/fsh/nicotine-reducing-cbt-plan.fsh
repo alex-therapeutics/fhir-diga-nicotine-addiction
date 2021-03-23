@@ -12,7 +12,7 @@ Parent: CarePlan
 * addresses ^slicing.discriminator.path = "addresses"
 * addresses ^slicing.rules = #open
 * addresses contains selfReportedNicotineDependance 1..1 MS
-* addresses[selfReportedNicotineDependance] only Reference(SelfReportedNicotineDependance)
+* addresses[selfReportedNicotineDependance] only Reference(SelfReportedNicotineDependance or Condition)
 
 Extension: SelfReportedSmokingStatus
 Id: self-reported-smoking-status
@@ -25,8 +25,8 @@ Description: "A report on the smoking status made by the patient him/herself at 
 * extension[reportedOn].value[x] only date
 * extension[reportedOn].valueDate 1..1
 * extension[status] ^short = "The status that was reported"
-* extension[status].value[x] only Coding
-* extension[status].valueCoding from SelfReportedSmokingStatusCode
+* extension[status].value[x] only CodeableConcept
+* extension[status].valueCodeableConcept from SelfReportedSmokingStatusCode (preferred)
 
 ValueSet: SelfReportedSmokingStatusCode
 Id: self-reported-smoking-status-code

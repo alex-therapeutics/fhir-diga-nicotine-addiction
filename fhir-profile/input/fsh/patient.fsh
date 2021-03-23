@@ -7,8 +7,8 @@ Extension: CommonNicotineTrigger
 Id: common-nicotine-trigger
 Title: "Common Nicotine Trigger"
 Description: "Common trigger for the patient to start using nicotine substances (like smoking a cigarette). For example, a patient's most common trigger might be that they feel an urge to smoke when they just woke up, or when they are waiting for something or someone."
-* value[x] only Coding // TODO add String, and say in standard you can suggest additions to the code in the open source repo and use string meanwhile
-* valueCoding from TriggerCode
+* value[x] only CodeableConcept // TODO add String, and say in standard you can suggest additions to the code in the open source repo and use string meanwhile
+* valueCodeableConcept from TriggerCode (preferred)
 
 ValueSet: TriggerCode
 * include codes from system TriggerCodeSystem
@@ -21,8 +21,8 @@ Extension: EffectiveNicotineIntervention
 Id: effective-nicotine-intervention
 Title: "Effective Nicotine Intervention"
 Description: "Effective interventions for when the patient has an urge to use nicotine substances (for example wants to smoke a cigarette). An example would be if asking that the patient take a glass of water when they feel the urge to smoke has been effective for this patient."
-* value[x] only Coding
-* valueCoding from EffectiveInterventionCode
+* value[x] only CodeableConcept
+* valueCodeableConcept from EffectiveInterventionCode (preferred)
 
 ValueSet: EffectiveInterventionCode
 * include codes from system EffectiveInterventionCodeSystem

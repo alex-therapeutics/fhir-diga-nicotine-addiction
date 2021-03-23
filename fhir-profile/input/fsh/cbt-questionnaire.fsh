@@ -6,14 +6,8 @@ Parent: QuestionnaireResponse
 * questionnaire 1..1 // responses SHOULD link to a defined questionnaire, always, so the other party can understand what the standard forms are. and a practicioner can take a look at what the DiGA does
 * source 1..1 
 * source only Reference(NicotineReducingPatient) // SHOULD be the patient
-// * item.answer.value[x] ^slicing.discriminator.type = #profile
-// * item.answer.value[x] ^slicing.discriminator.path = "value[x]"
-// * item.answer.value[x] ^slicing.rules = #open
-// * item.answer.value[x] contains valueTriggerCode 0..1
-// * item.answer.value[x][valueTriggerCode] only Coding // add option for the answer to be a trigger. implementors of standard can use the defined codes, OR propose changes in the open source standard to add their own, and use valueString in the meantime
-// * item.answer.value[x][valueTriggerCode] from TriggerCode
-// * item.answer.value.extension contains CommonNicotineTrigger named tr 0..1
-// * item.answer.valueCoding from TriggerCode
+* item.answer.valueCoding from TriggerCode (example) // indicate in standard that these codes can be used for logging or other questions involved 'triggers' which is a CBT concept
+// kanske ta bort
 
 Profile: NicotineCbtQuestionnaire
 Id: nicotine-cbt-questionnaire

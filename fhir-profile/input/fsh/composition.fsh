@@ -13,9 +13,11 @@ Parent: Composition
 * section ^slicing.rules = #closed
 * section contains patientData 1..1 MS
 * section[patientData].title = "Data for a self-reporting nicotine reducing patient"
+* section[patientData].entry 1..1 MS
 * section[patientData].entry only Reference(NicotineReducingPatient or Patient) 
 * section contains selfReportedCondition 1..1 MS
 * section[selfReportedCondition].title = "Data on the self-reported condition"
+* section[selfReportedCondition].entry 1..1 MS
 * section[selfReportedCondition].entry only Reference(SelfReportedNicotineDependance or Condition)
 * section contains questionnaires 1..1 MS
 * section[questionnaires].title = "Questionnaire definitions for the CBT treatment"
