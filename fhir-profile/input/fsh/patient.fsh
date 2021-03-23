@@ -7,7 +7,7 @@ Extension: CommonNicotineTrigger
 Id: common-nicotine-trigger
 Title: "Common Nicotine Trigger"
 Description: "Common trigger for the patient to start using nicotine substances (like smoking a cigarette). For example, a patient's most common trigger might be that they feel an urge to smoke when they just woke up, or when they are waiting for something or someone."
-* value[x] only Coding
+* value[x] only Coding // TODO add String, and say in standard you can suggest additions to the code in the open source repo and use string meanwhile
 * valueCoding from TriggerCode
 
 ValueSet: TriggerCode
