@@ -24,21 +24,24 @@ This questionnaire finds out information about common triggers for the patient, 
 * item[0].linkId = "SITUATION"
 * item[0].type = #choice
 * item[0].text = "Which situation are you in?"
-* item[0].answerValueSet = TriggerCode
+* item[0].answerValueSet = Canonical(TriggerCode)
 * item[1].linkId = "FEELING"
 * item[1].type = #choice
 * item[1].text = "How are you feeling?"
-* item[1].answerValueSet = TriggerCode
+* item[1].answerValueSet = Canonical(TriggerCode)
 * item[2].linkId = "WITHDRAWAL"
 * item[2].type = #choice
 * item[2].text = "Are you experiencing any physical symptoms?"
 // * item[2].answerValueSet = TriggerCode
-* item[2].answerValueSet = TriggerValuesInstance
+* item[2].answerValueSet = Canonical(TriggerCode)
 * item[3].linkId = "INTERVENTION"
 * item[3].type = #choice
 * item[3].text = "Would you like to try an intervention?"
-* item[3].answerValueSet = EffectiveInterventionCode
+* item[3].answerValueSet = Canonical(EffectiveInterventionCode)
 * item[4].linkId = "DECISION"
 * item[4].type = #choice
 * item[4].text = "Did you smoke?"
-* item[4].answerValueSet = http://terminology.hl7.org/CodeSystem/v2-0136 // TODO fix the valueset here
+* item[4].answerValueSet = Canonical(YesOrNo)
+
+ValueSet: YesOrNo
+* include codes from system http://terminology.hl7.org/CodeSystem/v2-0136
