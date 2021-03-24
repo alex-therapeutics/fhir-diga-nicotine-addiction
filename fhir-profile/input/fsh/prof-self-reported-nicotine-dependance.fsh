@@ -1,37 +1,3 @@
-Profile: NicotineReducingPatient
-Parent: Patient
-* extension contains CommonNicotineTrigger named commonNicotineTrigger 0..*
-* extension contains EffectiveNicotineIntervention named effectiveNicotineIntervention 0..*
-
-Extension: CommonNicotineTrigger
-Id: common-nicotine-trigger
-Title: "Common Nicotine Trigger"
-Description: "Common trigger for the patient to start using nicotine substances (like smoking a cigarette). For example, a patient's most common trigger might be that they feel an urge to smoke when they just woke up, or when they are waiting for something or someone."
-* value[x] only CodeableConcept // TODO add String, and say in standard you can suggest additions to the code in the open source repo and use string meanwhile
-* valueCodeableConcept from TriggerCode (preferred)
-
-ValueSet: TriggerCode
-* include codes from system TriggerCodeSystem
-
-CodeSystem: TriggerCodeSystem
-* #waiting "Waiting" "Waiting for something or someone"
-// TODO
-
-Extension: EffectiveNicotineIntervention
-Id: effective-nicotine-intervention
-Title: "Effective Nicotine Intervention"
-Description: "Effective interventions for when the patient has an urge to use nicotine substances (for example wants to smoke a cigarette). An example would be if asking that the patient take a glass of water when they feel the urge to smoke has been effective for this patient."
-* value[x] only CodeableConcept
-* valueCodeableConcept from EffectiveInterventionCode (preferred)
-
-ValueSet: EffectiveInterventionCode
-* include codes from system EffectiveInterventionCodeSystem
-
-CodeSystem: EffectiveInterventionCodeSystem
-* #drink-water "Drink Water" "Taking a glass of water"
-// TODO
-
-
 Profile: SelfReportedNicotineDependance
 Parent: Condition
 Id: self-reported-nicotine-dependance
@@ -55,7 +21,6 @@ Description: "A condition of nicotine dependance (F17.2 ICD-10). The condition a
 * code.coding[icd10].code = http://fhir.de/CodeSystem/dimdi/icd-10-gm#F17.2 
 * extension contains SelfReportedSmokingStatus named currentSelfReportedSmokingStatus 1..1
 * extension[currentSelfReportedSmokingStatus] ^short = "The latest smoking status that was reported by the patient"
-
 
 Instance: InlinePatient
 InstanceOf: NicotineReducingPatient
