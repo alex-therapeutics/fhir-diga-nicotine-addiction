@@ -21,6 +21,10 @@ Parent: Composition
 * section[selfReportedCondition].title = "Self-reported nicotine-usage condition"
 * section[selfReportedCondition].entry 1..1 MS
 * section[selfReportedCondition].entry only Reference(SelfReportedNicotineUsage or Condition)
+* section contains nicotineUsageTreatmentPlan 1..1 MS
+* section[nicotineUsageTreatmentPlan] ^short = "The treatment plan for the self-reported nicotine usage"
+* section[nicotineUsageTreatmentPlan].title = "Nicotine usage treatment plan"
+* section[nicotineUsageTreatmentPlan].entry only Reference(NicotineUsageTreatmentPlan or CarePlan)
 * section contains questionnaires 1..1 MS
 * section[questionnaires] ^short = "Definitions for questionnaires during the nicotine usage treatment"
 * section[questionnaires].title = "Questionnaire definitions"
@@ -40,6 +44,7 @@ Description: "An example of a composition of exported nicotine usage treatment d
 * title = "Eila data export for patient 'Max'"
 * section[patientData].entry = Reference(InlinePatient)
 * section[selfReportedCondition].entry = Reference(SelfReportedNicotineUsageExample)
+* section[nicotineUsageTreatmentPlan].entry = Reference(NicotineUsageTreatmentPlanExample)
 * section[questionnaires].entry[0] = Reference(NicotineTreatmentQuestionnaireExample)
 * section[questionnaireResponses].entry[0] = Reference(NicotineTreatmentQuestionnaireResponseExample)
 
