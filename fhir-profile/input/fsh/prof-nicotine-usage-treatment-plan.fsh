@@ -1,7 +1,7 @@
-Profile: NicotineReducingCBTPlan
-Id: nicotine-reducing-cbt-plan
-Title: "Nicotine Reducing CBT Plan"
-Description: "A Care Plan for reducing nicotine dependance using CBT"
+Profile: NicotineUsageTreatmentPlan
+Id: nicotine-usage-treatment-plan
+Title: "Nicotine Usage Treatment Plan"
+Description: "A treatment plan for nicotine usage."
 Parent: CarePlan
 * extension contains SelfReportedSmokingStatus named selfReportedSmokingStatus 0..*
 * intent = #plan
@@ -11,12 +11,12 @@ Parent: CarePlan
 * addresses ^slicing.discriminator.type = #profile
 * addresses ^slicing.discriminator.path = "addresses"
 * addresses ^slicing.rules = #open
-* addresses contains selfReportedNicotineDependance 1..1 MS
-* addresses[selfReportedNicotineDependance] only Reference(SelfReportedNicotineDependance or Condition)
-* subject only Reference(NicotineReducingPatient or Patient)
+* addresses contains selfReportedNicotineUsage 1..1 MS
+* addresses[selfReportedNicotineUsage] only Reference(SelfReportedNicotineUsage or Condition)
+* subject only Reference(SelfReportedNicotineUsingPatient or Patient)
 
-Instance: NicotineReducingCBTPlanExample
-InstanceOf: NicotineReducingCBTPlan
+Instance: NicotineUsageTreatmentPlanExample
+InstanceOf: NicotineUsageTreatmentPlan
 * extension[SelfReportedSmokingStatus][0].extension[reportedOn].valueDate = "2021-01-01"
 * extension[SelfReportedSmokingStatus][0].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#actively-smoking
 * extension[SelfReportedSmokingStatus][1].extension[reportedOn].valueDate = "2021-02-01"
@@ -24,7 +24,7 @@ InstanceOf: NicotineReducingCBTPlan
 * extension[SelfReportedSmokingStatus][2].extension[reportedOn].valueDate = "2021-03-01"
 * extension[SelfReportedSmokingStatus][2].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#quit-smoking
 * created = "2021-01-01"
-* addresses[selfReportedNicotineDependance] = Reference(InlineCondition)
+* addresses[selfReportedNicotineUsage] = Reference(InlineCondition)
 * status = #active
 * intent = #plan
 * subject = Reference(InlinePatient)
@@ -37,7 +37,7 @@ InstanceOf: NicotineReducingCBTPlan
     """
 
 Instance: InlineCondition
-InstanceOf: SelfReportedNicotineDependance
+InstanceOf: SelfReportedNicotineUsage
 Usage: #inline
 * extension[SelfReportedSmokingStatus].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#quit-smoking
 * extension[SelfReportedSmokingStatus].extension[reportedOn].valueDate = "2021-03-01"

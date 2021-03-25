@@ -3,11 +3,9 @@ ValueSet: TriggerCode
 
 CodeSystem: TriggerCodeSystem
 * #waiting "Waiting" "Waiting for something or someone"
-* #bored "Bored" "Being bored"
-* #fiddling "Fiddling" "Need to fiddle with something"
 * #bed "Bed" "Going to bed"
 * #walking "Walking" "Walking"
-* #sex "Sex" "After sex
+* #sex "Sex" "After sex"
 * #break "Break" "Taking a break, for example at work"
 * #lonely "Lonely" "Feeling lonely"
 * #down  "Down" "Felling down"

@@ -1,14 +1,16 @@
-Profile: NicotineCbtQuestionnaire
-Id: nicotine-cbt-questionnaire
-Title: "Nicotine CBT Questionnaire"
+// make separate fagerstrom questionnaire profile - if new onboarding
+
+Profile: NicotineTreatmentQuestionnaire
+Id: nicotine-treatment-questionnaire
+Title: "Nicotine Treatment Questionnaire"
 Description: "A questionnaire belonging to a nicotine reducing care program."
 Parent: Questionnaire
 * title 1..1
 * description 1..1 // explain that this is the primary spot to look for "what was asked" for journals
 * purpose 1..1 // a manufacturer should use these fields to explain in a humnan-friendly way what this questionnaire is for and what it does
 
-Instance: NicotineCbtQuestionnaireExample
-InstanceOf: NicotineCbtQuestionnaire
+Instance: NicotineTreatmentQuestionnaireExample
+InstanceOf: NicotineTreatmentQuestionnaire
 * status = #active
 * title = "Logging"
 * description = 
@@ -19,7 +21,7 @@ At last, the patient answers whether they smoked or not.
 """
 * purpose =
 """
-This questionnaire finds out information about common triggers for the patient, as well as effective interventions.
+This questionnaire finds out information about common triggers for the patient, as well as effective interventions, and helps the patient understand these themselves.
 """
 * item[0].linkId = "SITUATION"
 * item[0].type = #choice
@@ -32,7 +34,6 @@ This questionnaire finds out information about common triggers for the patient, 
 * item[2].linkId = "WITHDRAWAL"
 * item[2].type = #choice
 * item[2].text = "Are you experiencing any physical symptoms?"
-// * item[2].answerValueSet = TriggerCode
 * item[2].answerValueSet = Canonical(TriggerCode)
 * item[3].linkId = "INTERVENTION"
 * item[3].type = #choice

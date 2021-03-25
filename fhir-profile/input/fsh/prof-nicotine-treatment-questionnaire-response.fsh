@@ -1,15 +1,15 @@
-Profile: NicotineCbtQuestionnaireResponse
-Id: nicotine-cbt-questionnaire-response
-Title: "Nicotine CBT Questionnaire Response"
-Description: "A questionnaire response dealing with nicotine as part of a CBT based treatment program"
+Profile: NicotineTreatmentQuestionnaireResponse
+Id: nicotine-treatment-questionnaire-response
+Title: "Nicotine Treatment Questionnaire Response"
+Description: "A questionnaire response dealing with nicotine as part of a treatment program"
 Parent: QuestionnaireResponse
 * questionnaire 1..1 // responses SHOULD link to a defined questionnaire, always, so the other party can understand what the standard forms are. and a practicioner can take a look at what the DiGA does
 * source 1..1 
-* source only Reference(NicotineReducingPatient) // SHOULD be the patient
+* source only Reference(SelfReportedNicotineUsingPatient) // SHOULD be the patient
 * item.answer.value[x] from TriggerCode (example) // indicate in standard that these codes can be used for logging or other questions involved 'triggers' which is a CBT concept
 
-Instance: NicotineCbtQuestionnaireResponseExample
-InstanceOf: NicotineCbtQuestionnaireResponse
+Instance: NicotineTreatmentQuestionnaireResponseExample
+InstanceOf: NicotineTreatmentQuestionnaireResponse
 * questionnaire = Canonical(InlineQuestionnaire)
 * source = Reference(InlinePatient)
 * status = #completed
@@ -17,7 +17,7 @@ InstanceOf: NicotineCbtQuestionnaireResponse
 * item[0].answer[0].valueCoding = TriggerCodeSystem#waiting
 
 Instance: InlineQuestionnaire
-InstanceOf: NicotineCbtQuestionnaire
+InstanceOf: NicotineTreatmentQuestionnaire
 Usage: #inline
 * title = "Example"
 * description = "Example"
@@ -29,4 +29,4 @@ Usage: #inline
 * item[0].answerValueSet = Canonical(TriggerCode)
 
 Instance: InlinePatient
-InstanceOf: NicotineReducingPatient
+InstanceOf: SelfReportedNicotineUsingPatient
