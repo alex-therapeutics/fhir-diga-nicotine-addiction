@@ -4,6 +4,7 @@ Title: "Nicotine Usage Treatment Plan"
 Description: "A treatment plan for nicotine usage."
 Parent: CarePlan
 * extension contains SelfReportedSmokingStatus named selfReportedSmokingStatus 0..*
+* extension[selfReportedSmokingStatus] ^short = "A report made by the patient him/herself on his/her smoking status."
 * intent = #plan
 * description 1..1 // in standard we should explain that this is the primary point of finding information for how the app works
                     // f.e in a patient journal, this is what would explain what this app's treatment does
@@ -13,6 +14,7 @@ Parent: CarePlan
 * addresses ^slicing.rules = #open
 * addresses contains selfReportedNicotineUsage 1..1 MS
 * addresses[selfReportedNicotineUsage] only Reference(SelfReportedNicotineUsage or Condition)
+* addresses[selfReportedNicotineUsage] ^short = "The self-reported condition of nicotine usage treated by this plan"
 * subject only Reference(SelfReportedNicotineUsingPatient or Patient)
 
 Instance: NicotineUsageTreatmentPlanExample

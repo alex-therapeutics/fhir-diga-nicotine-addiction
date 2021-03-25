@@ -12,16 +12,20 @@ Parent: Composition
 * section ^slicing.discriminator.path = "section"
 * section ^slicing.rules = #closed
 * section contains patientData 1..1 MS
-* section[patientData].title = "Data for a self-reporting nicotine using patient"
+* section[patientData] ^short = "Data on the self-reported nicotine-using patient"
+* section[patientData].title = "Self-reported nicotine-using patientdata"
 * section[patientData].entry 1..1 MS
 * section[patientData].entry only Reference(SelfReportedNicotineUsingPatient or Patient) 
 * section contains selfReportedCondition 1..1 MS
-* section[selfReportedCondition].title = "Data on the self-reported condition"
+* section[selfReportedCondition] ^short = "Data on the self-reported condition of nicotine usage"
+* section[selfReportedCondition].title = "Self-reported nicotine-usage condition"
 * section[selfReportedCondition].entry 1..1 MS
 * section[selfReportedCondition].entry only Reference(SelfReportedNicotineUsage or Condition)
 * section contains questionnaires 1..1 MS
-* section[questionnaires].title = "Questionnaire definitions for the nicotine treatment"
+* section[questionnaires] ^short = "Definitions for questionnaires during the nicotine usage treatment"
+* section[questionnaires].title = "Questionnaire definitions"
 * section[questionnaires].entry only Reference(NicotineTreatmentQuestionnaire or Questionnaire)
 * section contains questionnaireResponses 1..1 MS
-* section[questionnaireResponses].title = "Questionnaire responses during the nicotine treatment"
+* section[questionnaireResponses] ^short = "Questionnaire responses by the patient during the nicotine treatment"
+* section[questionnaireResponses].title = "Questionnaire responses"
 * section[questionnaireResponses].entry only Reference(NicotineTreatmentQuestionnaireResponse or QuestionnaireResponse)

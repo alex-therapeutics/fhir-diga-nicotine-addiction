@@ -16,6 +16,7 @@ Description: "A condition of nicotine usage (F17.2 ICD-10). The condition and it
 * code.coding ^slicing.discriminator.path = "coding"
 * code.coding ^slicing.rules = #open
 * code.coding contains icd10 1..1 MS
+* code.coding[icd10] ^short = "The ICD-10 coding of the condition"
 * code.coding[icd10] only http://fhir.de/StructureDefinition/CodingICD10GM
 * code.coding[icd10].code = http://fhir.de/CodeSystem/dimdi/icd-10-gm#F17.2
 * code.coding[icd10].version = "2020"
