@@ -1,7 +1,7 @@
 Profile: ExportedNicotineUsageTreatmentData
 Id: exported-nicotine-usage-treatment-data
 Title: "Exported Nicotine Usage Treatment Data"
-Description: "A bulk export containing all data pertaining to one patient being reated for nicotine usage"
+Description: "A bulk export containing all data pertaining to a single patient being treated for nicotine usage"
 Parent: Composition
 * type.text = "DiGA Data Export"
 * subject 1..1 

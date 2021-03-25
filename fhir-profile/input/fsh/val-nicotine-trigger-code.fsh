@@ -1,7 +1,13 @@
 ValueSet: TriggerCode
+Id: trigger-code
+Title: "Trigger Code"
+Description: "A common trigger for using nicotine"
 * include codes from system TriggerCodeSystem
 
 CodeSystem: TriggerCodeSystem
+Id: trigger-code-system
+Title: "Trigger Code System"
+Description: "Code system containing common triggers for using nicotine."
 * #waiting "Waiting" "Waiting for something or someone"
 * #bed "Bed" "Going to bed"
 * #walking "Walking" "Walking"

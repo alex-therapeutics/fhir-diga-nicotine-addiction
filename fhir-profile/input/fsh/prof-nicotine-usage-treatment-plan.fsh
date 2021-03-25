@@ -16,6 +16,10 @@ Parent: CarePlan
 * subject only Reference(SelfReportedNicotineUsingPatient or Patient)
 
 Instance: NicotineUsageTreatmentPlanExample
+Description: """
+An example of a nicotine usage treatment plan. In this case, the patient has reported, successively, that they were actively smoking, then cutting down, then quit smoking. 
+The description of the plan contains a summary explanation of what the DiGA does and how it works, written in a way to explain it to an external party, like a physician.
+"""
 InstanceOf: NicotineUsageTreatmentPlan
 * extension[SelfReportedSmokingStatus][0].extension[reportedOn].valueDate = "2021-01-01"
 * extension[SelfReportedSmokingStatus][0].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#actively-smoking

@@ -10,6 +10,11 @@ Parent: Questionnaire
 * purpose 1..1 // a manufacturer should use these fields to explain in a humnan-friendly way what this questionnaire is for and what it does
 
 Instance: NicotineTreatmentQuestionnaireExample
+Description: 
+"""
+An example of a nicotine treatment questionnaire. This questionnaire is a 'Logging' questionnaire, where the patient can answer questions when they feel the need to smoke.
+The answers are coded in valuesets containing common triggers and effective interventions.
+"""
 InstanceOf: NicotineTreatmentQuestionnaire
 * status = #active
 * title = "Logging"
