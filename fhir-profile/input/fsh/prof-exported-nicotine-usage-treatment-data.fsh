@@ -29,3 +29,21 @@ Parent: Composition
 * section[questionnaireResponses] ^short = "Questionnaire responses by the patient during the nicotine treatment"
 * section[questionnaireResponses].title = "Questionnaire responses"
 * section[questionnaireResponses].entry only Reference(NicotineTreatmentQuestionnaireResponse or QuestionnaireResponse)
+
+Instance: ExportedDataCompositionExample
+InstanceOf: ExportedNicotineUsageTreatmentData
+Description: "An example of a composition of exported nicotine usage treatment data"
+* date = "2021-03-25"
+* author = Reference(AlexTherapeutics)
+* type.text = "DiGA Data Export"
+* subject = Reference(InlinePatient)
+* title = "Eila data export for patient 'Max'"
+* section[patientData].entry = Reference(InlinePatient)
+* section[selfReportedCondition].entry = Reference(SelfReportedNicotineUsageExample)
+* section[questionnaires].entry[0] = Reference(NicotineTreatmentQuestionnaireExample)
+* section[questionnaireResponses].entry[0] = Reference(NicotineTreatmentQuestionnaireResponseExample)
+
+Instance: AlexTherapeutics
+InstanceOf: Organization
+Usage: #inline
+* name = "Alex Therapeutics"
