@@ -2,30 +2,50 @@
 
 \usepackage[style=numeric,sorting=none,backend=biber]{biblatex}
 \addbibresource{references.bib} % The file containing our references, in BibTeX format
+\usepackage[colorlinks=true,linkcolor=violet]{hyperref}
 
 \begin{document}
 
 \chapter{Introduction}
 \label{ch:intro}
 
-Introduction text.
+This document establishes a standard for interoperability for Digital Health Applications that treat self-reported nicotine usage. It is based on the internationally recognized HL7\textsuperscript{\textregistered} FHIR\textsuperscript{\textregistered} (Fast Healthcare Interoperability Resources) standard for interoperability 
+within healthcare \cite{FHIR}. This document is accompanied by FHIR artefacts which are helpful in implementing the standard. The FHIR project and artefacts can be found at the \href{https://simplifier.net/treat-nicotine-usage-diga}{FHIR project page} \cite{project}.
+Henceforth in this text, the \textit{Standard} refers to this document together with the FHIR artefacts.
 
 \section{Version History}
 Make a nice table showing that this is v1 and it is in effect from March 2021
 
 \section{Objective}
-Explain what this standard does and why we are making it. Make sure to mention that we also try to target EPA(?), future digital patient journals as well as interoperability
+The purpose of this document is to establish a standard way of interoperability for Digital Health Applications (DiGAs) that treat self-reported nicotine usage (F17.2 using the ICD-10 coding system). The standard must be based on internationally recognized
+standards for interoperability within healthcare. The specific use-cases that the Standard is targetting are:
 
-\section{Application}
-Explain how to and who should use this standard. That it is to implement data export for DiGAs treating nicotine dependance.
+\begin{itemize}
+    \item Interoperability between similar DiGAs. DiGAs which treat self-reported nicotine usage are able to exchange an individual patient's data using the format established in the Standard.
+    \item Interoperability between a DiGA and journalling systems. Electronic patient journals are able to extract information using the Standard on what treatment the patient has received through the DiGA and key insights gained by the DiGA on the patient and the patient's condition.
+\end{itemize}
 
 \section{Online presence and further development}
-The FHIR profiles developed for this standard can be found as a package at (simplifier), and the implementation guide (ref) is live at its canonical uri at (the url).
+The FHIR resources developed for the Standard can be retrieved as a package at the \href{https://simplifier.net/treat-nicotine-usage-diga}{project page} \cite{project}, 
+and the accompanying implementation guide which is a shorter version of this document can be found there too.
 
-The standard and the FHIR profiles it is based on are open source and further development of future versions take place at (github link).
+The source code for the Standard: this document as well as all FHIR resources and their implementation guide; are open source and can be 
+found on \href{https://github.com/alex-therapeutics/diga-nicotine-usage-fhir}{GitHub} \cite{github}. Further development of the Standard
+takes place there and anyone may raise issues or suggest changes to it which can be incorporated in future versions.
+The project is maintained by Alex Therapeutics.
 
-\section{Copyright}
-alex, authors, individual contributors to the open source repo, FHIR is copyright by them (see rehappys standard)
+\section{Copyright and license}
+
+\begin{itemize}
+    \item The Standard, which is this document and the attached FHIR artefacts, is licensed under the Creative Commons Attribution 4.0 International License. 
+To view a copy of this license, visit \href{http://creativecommons.org/licenses/by/4.0/}{http://creativecommons.org/licenses/by/4.0/} or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+Copyright for the Standard is held by Alex Therapeutics AB. 
+    \item The source code for the Standard is licensed under the Apache 2.0 license. 
+You can read a copy of this license in the \href{https://github.com/alex-therapeutics/diga-nicotine-usage-fhir/blob/main/LICENSE}{GitHub project} \cite{github}.
+Copyright for the source code is held by Alex Therapeutics AB together with individual contributors to it.
+    \item The base HL7\textsuperscript{\textregistered} FHIR\textsuperscript{\textregistered} standard which the Standard is derived from is copyrighted by HL7 and subject to their \href{http://hl7.org/fhir/license.html}{license} \cite{fhirlic}.
+HL7, FHIR and the FHIR [FLAME DESIGN] are the registered trademarks of Health Level Seven International and their use does not constitute endorsement by HL7.
+\end{itemize}
 
 \chapter{Background}
 
@@ -41,7 +61,7 @@ Here goes the profile
 \section{Dependencies}
 Explain that these profiles build on the core fhir spec and the basis-de spec.
 
-\section{Artifacts}
+\section{Artefacts}
 The following profiles, extensions, valuesets and codesystems are part of this standard:
 
 (list them)
@@ -53,6 +73,8 @@ We will list the artifacts in question here along with figures describing them. 
 \subsection{NicotineReducingPatient}
 
 etc.. one section for each thing
+
+\printbibliography[heading=bibintoc, title={References}]
 
 \chapter{Appendix}
 
