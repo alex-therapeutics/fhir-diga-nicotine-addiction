@@ -5,6 +5,12 @@
 \addbibresource{references.bib} % The file containing our references, in BibTeX format
 \usepackage{csquotes} % Recommended by biblatex
 \usepackage[colorlinks=true,linkcolor=violet]{hyperref}
+\usepackage{booktabs}
+
+\usepackage{listings}
+% \lstset{language=xml,keywordstyle={\bfseries \color{blue}}}
+% \lstset{keywordstyle={\bfseries \color{blue}}}
+\def\code#1{\texttt{#1}} %format for \code text
 
 \newcommand{\fhir}{FHIR\textsuperscript{\textregistered}}
 \newcommand{\hl}{HL7\textsuperscript{\textregistered}}
@@ -34,7 +40,7 @@ standards for interoperability within healthcare. The Standard should be as flex
 
 \section{Online presence and further development}
 The FHIR resources developed for the Standard can be retrieved as a package at the \href{https://simplifier.net/treat-nicotine-usage-diga}{project page} \cite{project}, 
-and the accompanying implementation guide which is a shorter version of this document can be found there too.
+and the accompanying implementation guide which is a shorter version of this document can be found there too \cite{ig}.
 
 The source code for the Standard: this document as well as all FHIR resources and their implementation guide; are open source and can be 
 found on \href{https://github.com/alex-therapeutics/diga-nicotine-usage-fhir}{GitHub} \cite{github}. Further development of the Standard
@@ -102,28 +108,98 @@ is the coding used for addiction syndrome related to tobacco.
 \chapter{Specification}
 \label{ch:spec}
 
-This chapter contains descriptions of the FHIR resourced developed for use by DiGA treating nicotine addiction (F17.2). It is important to note that the DiGAs that implement this standard do not and should not
+This chapter contains descriptions of the FHIR resources developed for use by DiGA treating nicotine addiction (F17.2). It is important to note that the DiGAs that implement this standard do not and should not
 make the diagnosis that the patient is addicted to nicotine: that is done previously by a medical professional who prescribes the DiGA or the condition is recognized by the patient him/herself. 
-Thus, data references to the medical condition and to status updates of it are explicitly stated to be \textit{self reported}, which refers to this situation.
+Thus, data references to the medical condition and to status updates of it are explicitly stated to be \textit{self reported}, which refers to this fact.
 
-The resources described here can be accessed and downloaded at the \href{https://simplifier.net/treat-nicotine-usage-diga}{project page on Simplifier.net} where there is also an \href{https://simplifier.net/guide/self-reported-nicotine-usage-diga/home}{Implementation Guide } with brief instructions on how to use the resources.
+When building the resources special consideration has been taken to make them as open and flexible as possible, to allow for DiGAs treating nicotine addiction to suit it to their needs, while still delivering a
+well-specified structure for exporting a single patient's data (see \ref{sec:export}).
+
 
 \section{Dependencies}
 
 The profiles in the Standard depend on the core \fhir \cite{FHIR} profiles, and on the German national profile \cite{debasis}.
 
+\section{Exporting Data}
+\label{sec:export}
+
+The Standard deals with exporting patient data concerning their DiGA nicotine addiction treatment in general,
+but in particular with exporting a \textit{single patient's} data as one document. This is a DiGA requirement.
+
+When exporting a single patient's data, implementers \textbf{must} use the Bundle \fhir resource \cite{bundle}. A bundle \textbf{must} contain an ExportedNicotineUsageTreatmentData resource (see \ref{sec:comp}), which is a profile on Composition,
+which defines metadata about what is contained in the bundle and where to find it. Next, the bundle must contain all resources pointed to in the ExportedNicotineUsageTreatmentData composition. In this way, it is possible
+to export all relevant data for a single patient in one document using the Standard. There is an example of this in TODO(APPENDIX).
+
 \section{Artefacts}
-The following profiles, extensions, valuesets and codesystems are part of this standard:
+The FHIR profiles, extensions, valuesets and codesystems built for the Standard are listed in Table \ref{tab:all}.
 
-(list them)
+\begin{table}[]
+    \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{Name}                                               & \textbf{Parent}                            & \textbf{Type} \\ \midrule
+    \multicolumn{1}{l|}{SelfReportedNicotineUsingPatient}       & \multicolumn{1}{l|}{Patient}               & Profile       \\ \midrule
+    \multicolumn{1}{l|}{SelfReportedNicotineUsage}              & \multicolumn{1}{l|}{Condition}             & Profile       \\ \midrule
+    \multicolumn{1}{l|}{NicotineUsageTreatmentPlan}             & \multicolumn{1}{l|}{CarePlan}              & Profile       \\ \midrule
+    \multicolumn{1}{l|}{NicotineTreatmentQuestionnaire}         & \multicolumn{1}{l|}{Questionnaire}         & Profile       \\ \midrule
+    \multicolumn{1}{l|}{NicotineTreatmentQuestionnaireResponse} & \multicolumn{1}{l|}{QuestionnaireResponse} & Profile       \\ \midrule
+    \multicolumn{1}{l|}{ExportedNicotineUsageTreatmentData}     & \multicolumn{1}{l|}{Composition}           & Profile       \\ \midrule
+    \multicolumn{1}{l|}{EffectiveNicotineIntervention}          & \multicolumn{1}{l|}{-}                     & Extension     \\ \midrule
+    \multicolumn{1}{l|}{NicotineTrigger}                        & \multicolumn{1}{l|}{-}                     & Extension     \\ \midrule
+    \multicolumn{1}{l|}{SelfReportedSmokingStatus}              & \multicolumn{1}{l|}{-}                     & Extension     \\ \midrule
+    \multicolumn{1}{l|}{EffectiveInterventionCode}              & \multicolumn{1}{l|}{-}                     & ValueSet      \\ \midrule
+    \multicolumn{1}{l|}{SelfReportedSmokingStatusCode}          & \multicolumn{1}{l|}{-}                     & ValueSet      \\ \midrule
+    \multicolumn{1}{l|}{TriggerCode}                            & \multicolumn{1}{l|}{-}                     & ValueSet      \\ \midrule
+    \multicolumn{1}{l|}{YesOrNo}                                & \multicolumn{1}{l|}{-}                     & ValueSet      \\ \midrule
+    \multicolumn{1}{l|}{EffectiveInterventionCodeSystem}        & \multicolumn{1}{l|}{-}                     & CodeSystem    \\ \midrule
+    \multicolumn{1}{l|}{SelfReportedStatusCodeSystem}           & \multicolumn{1}{l|}{-}                     & CodeSystem    \\ \midrule
+    \multicolumn{1}{l|}{TriggerCodeSystem}                      & \multicolumn{1}{l|}{-}                     & CodeSystem    \\ \bottomrule
+    \end{tabular}
+    \caption{FHIR resources created for the Standard}
+    \label{tab:all}
+    \end{table}
 
-You can find the implementation guide at (URI) and the released artifacts at (github releases) or (simplifier).
+The resources can be accessed and downloaded at the \href{https://simplifier.net/treat-nicotine-usage-diga}{project page on Simplifier.net} where there is also an \href{https://simplifier.net/guide/self-reported-nicotine-usage-diga/home}{Implementation Guide} \cite{ig} with brief instructions on how to use the resources.
 
-We will list the artifacts in question here along with figures describing them. Note that we will only show and discuss the differential tables here, the resources otherwise conform to the core FHIR specification and you can view the full resources in the implementation guide.
+We will list the artifacts in question here in context of how to use them along with figures describing them. Note that we will only show and discuss the differential tables here, the resources otherwise conform to the core FHIR specification and you can view the full resources in snapshot form in the implementation guide.
 
-\subsection{NicotineReducingPatient}
+\subsection{Representing an app user/patient}
 
-etc.. one section for each thing
+The DiGA user (patient) will be represented using the \code{SelfReportedNicotineUsingPatient} resource. This resource should be used when the DiGA user is not supervised by a medical professional during the DiGA treatment, which means the
+patient is \textit{self reporting}.
+
+Since there will be different information available on the patient for different DiGAs, this is a flexible profile allowing all defaults on \code{Patient}. 
+There are however two optional extensions to quickly give information on this person's common triggers for nicotine usage and interventions that have been effective for this person.
+
+% TODO figure patient
+
+The extension field \code{commonNicotineTrigger} allows for exporting information about which common triggers there are for a patient's nicotine usage. 
+Values for this extension \textbf{should} be from the value set TriggerCode (fig). If an appropriate code is not available, implementers \textbf{should} use the string value of CodeableConcept, 
+and implementers \textbf{may} raise an issue on GitHub \cite{github} to include their code in the value set in future versions of the Standard.
+
+% TODO figure extension
+
+% TODO figure valueset
+
+% TODO figure codesystem?
+
+The extension field \code{effectiveNicotineIntervention} allows for exporting information about which interventions have been effective for this patient to prevent their use of nicotine.
+Values for this extension \textbf{should} be from the value set \code{EffectiveInterventionCode} (fig). If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
+and implementers \textbf{may} raise an issue on GitHub \cite{github} to include their code in the value set in future versions of the Standard.
+
+% TODO figure extension
+
+% TODO figure valueset
+
+% TODO figure codesystem?
+
+\subsection{Representing the condition}
+
+The profile on \code{Condition} allows the DiGA to make it clear what is being treated while at the same time making it clear that the DiGA is not making diagnosis and that the status of the condition is reported by the patient him/herself, 
+and not otherwise monitored by the DiGA. To achieve this, the profile disallows clinical attributes like evidence, clinicalStatus etc, and adds an extension called \code{currentSelfReportedSmokingStatus} to allow for a readily accessible way to find out what the current status of the condition is. 
+The condition coding points to the german base profile's ICD-10 code for nicotine addiction, F17.2.
+
+\subsection{ExportedNicotineUsageTreatmentData}
+\label{sec:comp}
 
 \printbibliography[heading=bibintoc, title={References}]
 
