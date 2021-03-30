@@ -24,8 +24,8 @@ Henceforth in this text, the \textit{Standard} refers to this document together 
 Make a nice table showing that this is v1 and it is in effect from March 2021
 
 \section{Objective}
-The purpose of the Standard is to establish a standard way of interoperability for Digital Health Applications (DiGAs) that treat self-reported nicotine usage (F17.2 using the ICD-10 coding system). The standard must be based on internationally recognized
-standards for interoperability within healthcare. The specific use-cases that the Standard is targetting are:
+The purpose of the Standard is to establish a standard way of interoperability for Digital Health Applications (DiGAs) that treat self-reported nicotine usage (F17.2 using the ICD-10 coding system). The Standard must be based on internationally recognized
+standards for interoperability within healthcare. The Standard should be as flexible as possible to allow for different applications to fit it to their need. The specific use-cases that the Standard is targetting are:
 
 \begin{itemize}
     \item Interoperability between similar DiGAs. DiGAs which treat self-reported nicotine usage are able to exchange an individual patient's data using the format established in the Standard.
@@ -91,16 +91,26 @@ add the extension "smokingStatus" on a Patient to signify is this patient is cur
 \section{German national profile}
 \hl Deutschland \cite{hlde} maintains the national \fhir profile for Germany \cite{debasis}. It contains resources which may be useful for the German national healthcare context and a use-case-specific profile which is to be used in Germany should use applicable resources from it.
 
-\section{Treating nicotine usage}
-\section{ICD-10} % maybe
+\section{ICD-10-GM}
+
+The International Statistical Classification of Diseases and Related Health Problems, German Modification (ICD-10-GM) is the official classification for encoding diagnoses in medical care in Germany \cite{icd}.
+The codes can be found online at the DIMDI (Deutsches Institut Für Medizinische Dokumentation und Information) website \cite{dimdi}. The codes F17.x deals with tobacco use, and specifically F17.2, which is referenced in the Standard,
+is the coding used for addiction syndrome related to tobacco.
+
+% \section{Treating nicotine usage}
 
 \chapter{Specification}
 \label{ch:spec}
 
-Here goes the profile
+This chapter contains descriptions of the FHIR resourced developed for use by DiGA treating nicotine addiction (F17.2). It is important to note that the DiGAs that implement this standard do not and should not
+make the diagnosis that the patient is addicted to nicotine: that is done previously by a medical professional who prescribes the DiGA or the condition is recognized by the patient him/herself. 
+Thus, data references to the medical condition and to status updates of it are explicitly stated to be \textit{self reported}, which refers to this situation.
+
+The resources described here can be accessed and downloaded at the \href{https://simplifier.net/treat-nicotine-usage-diga}{project page on Simplifier.net} where there is also an \href{https://simplifier.net/guide/self-reported-nicotine-usage-diga/home}{Implementation Guide } with brief instructions on how to use the resources.
 
 \section{Dependencies}
-Explain that these profiles build on the core fhir spec and the basis-de spec.
+
+The profiles in the Standard depend on the core \fhir \cite{FHIR} profiles, and on the German national profile \cite{debasis}.
 
 \section{Artefacts}
 The following profiles, extensions, valuesets and codesystems are part of this standard:

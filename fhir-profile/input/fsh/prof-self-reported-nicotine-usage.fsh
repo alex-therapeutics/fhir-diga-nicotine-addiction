@@ -31,7 +31,7 @@ InstanceOf: SelfReportedNicotineUsage
 * extension[SelfReportedSmokingStatus].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#actively-smoking
 * extension[SelfReportedSmokingStatus].extension[reportedOn].valueDate = "2021-03-21"
 * code.coding[icd10].code = http://fhir.de/CodeSystem/dimdi/icd-10-gm#F17.2 
-* code.coding[icd10].version = "2020"
+* code.coding[icd10].version = "2021"
 * subject = Reference(InlinePatient)
 
 Instance: InlinePatient
