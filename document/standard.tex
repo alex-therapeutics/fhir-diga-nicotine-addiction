@@ -1,15 +1,22 @@
 \documentclass[12px]{report}
 
+\usepackage{xcolor}
 \usepackage[style=numeric,sorting=none,backend=biber]{biblatex}
 \addbibresource{references.bib} % The file containing our references, in BibTeX format
+\usepackage{csquotes} % Recommended by biblatex
 \usepackage[colorlinks=true,linkcolor=violet]{hyperref}
 
+\newcommand{\fhir}{FHIR\textsuperscript{\textregistered}}
+\newcommand{\hl}{HL7\textsuperscript{\textregistered}}
+
 \begin{document}
+
+\tableofcontents
 
 \chapter{Introduction}
 \label{ch:intro}
 
-This document establishes a standard for interoperability for Digital Health Applications that treat self-reported nicotine usage. It is based on the internationally recognized HL7\textsuperscript{\textregistered} FHIR\textsuperscript{\textregistered} (Fast Healthcare Interoperability Resources) standard for interoperability 
+This document establishes a standard for interoperability for Digital Health Applications that treat self-reported nicotine usage. It is based on the internationally recognized \hl \fhir (Fast Healthcare Interoperability Resources) standard for interoperability 
 within healthcare \cite{FHIR}. This document is accompanied by FHIR artefacts which are helpful in implementing the standard. The FHIR project and artefacts can be found at the \href{https://simplifier.net/treat-nicotine-usage-diga}{FHIR project page} \cite{project}.
 Henceforth in this text, the \textit{Standard} refers to this document together with the FHIR artefacts.
 
@@ -17,7 +24,7 @@ Henceforth in this text, the \textit{Standard} refers to this document together 
 Make a nice table showing that this is v1 and it is in effect from March 2021
 
 \section{Objective}
-The purpose of this document is to establish a standard way of interoperability for Digital Health Applications (DiGAs) that treat self-reported nicotine usage (F17.2 using the ICD-10 coding system). The standard must be based on internationally recognized
+The purpose of the Standard is to establish a standard way of interoperability for Digital Health Applications (DiGAs) that treat self-reported nicotine usage (F17.2 using the ICD-10 coding system). The standard must be based on internationally recognized
 standards for interoperability within healthcare. The specific use-cases that the Standard is targetting are:
 
 \begin{itemize}
@@ -43,18 +50,52 @@ Copyright for the Standard is held by Alex Therapeutics AB.
     \item The source code for the Standard is licensed under the Apache 2.0 license. 
 You can read a copy of this license in the \href{https://github.com/alex-therapeutics/diga-nicotine-usage-fhir/blob/main/LICENSE}{GitHub project} \cite{github}.
 Copyright for the source code is held by Alex Therapeutics AB together with individual contributors to it.
-    \item The base HL7\textsuperscript{\textregistered} FHIR\textsuperscript{\textregistered} standard which the Standard is derived from is copyrighted by HL7 and subject to their \href{http://hl7.org/fhir/license.html}{license} \cite{fhirlic}.
+    \item The base \hl \fhir standard which the Standard is derived from is copyrighted by \hl and subject to their \href{http://hl7.org/fhir/license.html}{license} \cite{fhirlic}.
 HL7, FHIR and the FHIR [FLAME DESIGN] are the registered trademarks of Health Level Seven International and their use does not constitute endorsement by HL7.
 \end{itemize}
 
+\section{Outline}
+Chapter \ref{ch:bg} gives a background on central concepts like DiGA, FHIR, and the speficic type of DiGA the Standard is targetting. The specification of the FHIR resources with comments on how they should be implemented follows in Chapter \ref{ch:spec}.
+Lastly, there are examples contained in Appendix \ref{app:ex}.
+
+
 \chapter{Background}
+\label{ch:bg}
 
-The DiGA guide states that FHIR is the way to go
+This chapter contains descriptions and references for central concepts used in the Standard.
 
-\section{FHIR}
-short intro to FHIR
+\section{Digital Health Application}
+A Digital Health Application (DiGA) is a CE-marked medical device based on digital technologies (f.e, a mobile application). Following the German Digital Healthcare Act, they were introduced as "apps on prescription" for German patients and became reimbursable by statutory health insurances \cite{diga}.
+
+To be listed as a DiGA there are several requirements, and the German Federal Institute for Drugs and Medical Devices (BfArM) provides a guide for manufacturers on how to meet them \cite{guide}.
+One of the requirements for DiGA is on interoperability. The guide \cite[p.51]{guide} states that:
+
+\begin{quotation}
+    \noindent \textit{DiGA should prospectively communicate with each other and interact with other services and applications on the national e-health infrastructure, so that real added value for healthcare can be achieved.}
+\end{quotation}
+
+Furthermore, interoperability should be achieved using available standards. If there is no national or international standard available that apply to the specifics of a DiGA, an effort should be made to create a new standard and include it in the directory for IT standards in the German healthcare system, \textit{vesta} \cite{vesta}.
+Such a new standard should be based on existing internationally recognized standards, for example by \textit{the combination and extension of several HL7-FHIR profile definitions.} \cite[p.53-54]{guide}.
+
+\section{Fast Healthcare Interoperability Resources}
+Fast Healthcare Interoperability Resources (\fhir) \cite{FHIR} is a standard for health care data exchange, published by \hl. It is considered the "next generation" standard for interoperability within healthcare, internationally.
+Among the advantages are a strong focus on implementation with multiple existing libraries, flexibility with the possibility to extend and profile existing base resources, a strong foundation in web standards like XML, JSON, etc., and support for RESTful data exchange.
+
+FHIR is made up from base components called \textit{Resources}. An example resource is the \textit{Patient} resource, which contains data about a single patient. 
+
+The base resources aim to cover all data points within healthcare, both clinical and administrative, and because they cover such a wide range of use-cases, the base resources are generic and flexible by nature.
+An important feature is then that the base resources can be modified to suit more specific use cases by using \textit{profiling} and \textit{extensions}. A profile on a base resource means constraining it to behave in a certain way.
+For example, you could constrain the Patient resource to make it mandatory to provide a birthdate, which is optional in the base resource. You can also add extensions, which are attributes which do not exist yet on the resource. For example, you could
+add the extension "smokingStatus" on a Patient to signify is this patient is currently smoking or not. Further information on \fhir can be obtained via their online standard \cite{FHIR}.
+
+\section{German national profile}
+\hl Deutschland \cite{hlde} maintains the national \fhir profile for Germany \cite{debasis}. It contains resources which may be useful for the German national healthcare context and a use-case-specific profile which is to be used in Germany should use applicable resources from it.
+
+\section{Treating nicotine usage}
+\section{ICD-10} % maybe
 
 \chapter{Specification}
+\label{ch:spec}
 
 Here goes the profile
 
@@ -76,10 +117,15 @@ etc.. one section for each thing
 
 \printbibliography[heading=bibintoc, title={References}]
 
-\chapter{Appendix}
+
+\appendix
+
+\chapter{Examples}
+\label{app:ex}
 
 Include a FHIR bundle resource example export
 
 Include some JSON examples of each resource
+
 
 \end{document}
