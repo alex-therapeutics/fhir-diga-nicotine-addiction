@@ -6,6 +6,7 @@
 \usepackage{csquotes} % Recommended by biblatex
 \usepackage[colorlinks=true,linkcolor=violet]{hyperref}
 \usepackage{booktabs}
+\usepackage{float}
 
 \usepackage{listings}
 % \lstset{language=xml,keywordstyle={\bfseries \color{blue}}}
@@ -24,10 +25,16 @@
 
 This document establishes a standard for interoperability for Digital Health Applications that treat self-reported nicotine usage. It is based on the internationally recognized \hl \fhir (Fast Healthcare Interoperability Resources) standard for interoperability 
 within healthcare \cite{FHIR}. This document is accompanied by FHIR artefacts which are helpful in implementing the standard. The FHIR project and artefacts can be found at the \href{https://simplifier.net/treat-nicotine-usage-diga}{FHIR project page} \cite{project}.
-Henceforth in this text, the \textit{Standard} refers to this document together with the FHIR artefacts.
+Henceforth in this text, the \textit{Standard} refers to this document in combination with the FHIR artefacts.
 
 \section{Version History}
-Make a nice table showing that this is v1 and it is in effect from March 2021
+\begin{table}[H]
+    \begin{tabular}{@{}lll@{}}
+    \textbf{As per}                 & \textbf{Version}         & \textbf{Changes} \\ \midrule
+    \multicolumn{1}{l|}{March 2021} & \multicolumn{1}{l|}{1.0} & Initial release. \\ \bottomrule
+    \end{tabular}
+    \label{tab:version}
+    \end{table}
 
 \section{Objective}
 The purpose of the Standard is to establish a standard way of interoperability for Digital Health Applications (DiGAs) that treat self-reported nicotine usage (F17.2 using the ICD-10 coding system). The Standard must be based on internationally recognized
@@ -35,7 +42,7 @@ standards for interoperability within healthcare. The Standard should be as flex
 
 \begin{itemize}
     \item Interoperability between similar DiGAs. DiGAs which treat self-reported nicotine usage are able to exchange an individual patient's data using the format established in the Standard.
-    \item Interoperability between a DiGA and journalling systems. Electronic patient journals are able to extract information using the Standard on what treatment the patient has received through the DiGA and key insights gained by the DiGA on the patient and the patient's condition.
+    \item Interoperability between a DiGA and journalling systems such as patient health records (ePA). Electronic patient journals are able to extract information using the Standard on what treatment the patient has received through the DiGA and key insights gained by the DiGA on the patient and the patient's condition.
 \end{itemize}
 
 \section{Online presence and further development}
@@ -126,8 +133,8 @@ The profiles in the Standard depend on the core \fhir \cite{FHIR} profiles, and 
 The Standard deals with exporting patient data concerning their DiGA nicotine addiction treatment in general,
 but in particular with exporting a \textit{single patient's} data as one document. This is a DiGA requirement.
 
-When exporting a single patient's data, implementers \textbf{must} use the Bundle \fhir resource \cite{bundle}. A bundle \textbf{must} contain an ExportedNicotineUsageTreatmentData resource (see \ref{sec:comp}), which is a profile on Composition,
-which defines metadata about what is contained in the bundle and where to find it. Next, the bundle must contain all resources pointed to in the ExportedNicotineUsageTreatmentData composition. In this way, it is possible
+When exporting a single patient's data, implementers \textbf{must} use the \code{Bundle} \fhir resource \cite{bundle}. A bundle \textbf{must} contain an \code{ExportedNicotineUsageTreatmentData} resource (see \ref{sec:comp}), which is a profile on \code{Composition},
+which defines metadata about what is contained in the bundle and where to find it. Next, the bundle must contain all resources pointed to in the composition. In this way, it is possible
 to export all relevant data for a single patient in one document using the Standard. There is an example of this in TODO(APPENDIX).
 
 \section{Artefacts}
@@ -160,7 +167,7 @@ The FHIR profiles, extensions, valuesets and codesystems built for the Standard 
 
 The resources can be accessed and downloaded at the \href{https://simplifier.net/treat-nicotine-usage-diga}{project page on Simplifier.net} where there is also an \href{https://simplifier.net/guide/self-reported-nicotine-usage-diga/home}{Implementation Guide} \cite{ig} with brief instructions on how to use the resources.
 
-We will list the artifacts in question here in context of how to use them along with figures describing them. Note that we will only show and discuss the differential tables here, the resources otherwise conform to the core FHIR specification and you can view the full resources in snapshot form in the implementation guide.
+We will list the artifacts here in the context of how to use them along with figures describing them. Note that we will only show and discuss the differential tables here, the resources otherwise conform to the core FHIR specification and you can view the full resources in snapshot form in the implementation guide.
 
 \subsection{Representing an app user/patient}
 
@@ -173,7 +180,7 @@ There are however two optional extensions to quickly give information on this pe
 % TODO figure patient
 
 The extension field \code{commonNicotineTrigger} allows for exporting information about which common triggers there are for a patient's nicotine usage. 
-Values for this extension \textbf{should} be from the value set TriggerCode (fig). If an appropriate code is not available, implementers \textbf{should} use the string value of CodeableConcept, 
+Values for this extension \textbf{should} be from the value set \code{TriggerCode} (fig TODO). If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
 and implementers \textbf{may} raise an issue on GitHub \cite{github} to include their code in the value set in future versions of the Standard.
 
 % TODO figure extension
@@ -194,12 +201,55 @@ and implementers \textbf{may} raise an issue on GitHub \cite{github} to include 
 
 \subsection{Representing the condition}
 
-The profile on \code{Condition} allows the DiGA to make it clear what is being treated while at the same time making it clear that the DiGA is not making diagnosis and that the status of the condition is reported by the patient him/herself, 
-and not otherwise monitored by the DiGA. To achieve this, the profile disallows clinical attributes like evidence, clinicalStatus etc, and adds an extension called \code{currentSelfReportedSmokingStatus} to allow for a readily accessible way to find out what the current status of the condition is. 
-The condition coding points to the german base profile's ICD-10 code for nicotine addiction, F17.2.
+The profile on \code{Condition} called \code{SelfReportedNicotineUsage} should be used when the condition is not supervised by a medical professional during the DiGA treatment, but self-reported by the patient.
+I allows the DiGA to make it clear what is being treated while at the same time making it clear that the DiGA is not making the diagnosis and that the status of the condition is reported by the patient him/herself. 
+To achieve this, the profile disallows clinical attributes like evidence, clinicalStatus etc. It adds an extension called \code{currentSelfReportedSmokingStatus} to allow for a readily accessible way to find out what the current status of the condition is reported to be. 
+The condition coding points to the german base profile's \cite{debasis} ICD-10-GM code \cite{icd} for nicotine addiction, F17.2.
 
-\subsection{ExportedNicotineUsageTreatmentData}
+% TODO figure condition
+
+% TODO figure extension
+
+% TODO figure valueset & codesystem
+
+The extension field \code{currentSelfReportedSmokingStatus} allows for quickly viewing the status on the condition. It should include the latest report on the condition status made by the patient.
+Values for this extension's \code{status} attribute \textbf{should} be from the value set \code{SelfReportedSmokingStatusCode} (fig). If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
+and implementers \textbf{may} raise an issue on GitHub \cite{github} to include their code in the value set in future versions of the Standard.
+
+\subsection{Representing the DiGA care program}
+
+For patient journals and doctors there needs to be a quick way of discovering what the DiGA does or did when the patient was using it. 
+Implementers should use the profile on \code{Condition} called \code{NicotineUsageTreatmentPlan} for this. 
+Furthermore, implementers \textbf{must} use the \code{description} and \code{purpose} fields to describe what the DiGA does as part of its program, and what the purpose of it is. 
+Consumers of the resource should use these fields to gain a brief understanding of what the DiGA does as part of its treatment.
+There is an optional extension available, \code{selfReportedSmokingStatus}, to allow for a timeline of how the nicotine usage status of the patient has changed over time, with one record each time the patient has reported a change in the status. 
+If the implementer has this data, it should be in included in the data using this extension. The extension used for this is the one defined in Figure \ref{TODO}.
+
+% TODO figure profile
+
+\subsection{Representing app activities}
+
+App activities can vary between DiGAs so implementors are free to represent these in various ways including \code{CarePlan}'s \code{activity} field. 
+One common demoninator for apps treating nicotine usage however is that the patients are encouraged to track, \textit{log}, their cigarettes. 
+Often, the patient also answers questionnaires about various things, to gather information about their nicotine usage and to allow the patient to gain insight themselves on how their addiction works.
+
+To represent these activities, logging and questionnaires, implementors should use \code{NicotineTreatmentQuestionnaire} to define how the questionnaire is presented in the application, 
+and \code{NicotineTreatmentQuestionnaireResponse} to represent an individual patient's response to it. It is required to give a title, description and purpose to the questionnaire to explain what it does.
+Implementers are encouraged to use the \code{TriggerCode} and \code{EffectiveInterventionCode} value sets when they are appropriate as answers.
+
+% TODO figure profiles
+
+\subsection{Mandatory metadata for exports}
 \label{sec:comp}
+
+When exporting data for a single patient in a \code{Bundle}, as described in \ref{sec:export}, there must be metadata present. 
+For this, a profile on \code{Composition} is used called \code{ExportedNicotineUsageTreatmentData}.
+The \code{section} field is sliced to contain sections for all resources required to export a single patient's data: 
+\code{patientData}, \code{selfReportedCondition}, \code{nicotineUsageTreatmentPlan}, \code{questionnaires}, and \code{questionnaireResponses}.
+Each of these must contain a reference to a resource contained in the \code{Bundle}. For example, the section slice \code{selfReportedCondition} must
+contain a reference to the patient's \code{SelfReportedNicotineUsage} condition.
+
+% TODO figure profile
 
 \printbibliography[heading=bibintoc, title={References}]
 
