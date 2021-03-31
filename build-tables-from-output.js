@@ -14,7 +14,6 @@ const uri = json.url
 const name = json.name
 const type = json.type
 
-
 const bookTabsHeader = 
 `
 \\begin{table}[]
@@ -55,7 +54,9 @@ function buildTabRow(item, snapshots) {
 
 function getType(item, snapshots) {
     if (item.binding) {
-
+        const valueSetId = findIdFromCanonical(item.binding.valueSet)
+        const valueSetName = findProfileNameFromIg(igJson, valueSetId)
+        return `${valueSetName} (${item.binding.strength})`
     }
     const types = item.type || snapshots.find(el => el.id === item.id).type
     if (types.length === 1) {
