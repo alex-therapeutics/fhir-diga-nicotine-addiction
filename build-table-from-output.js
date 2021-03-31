@@ -83,11 +83,17 @@ fs.writeFileSync(target, result)
 console.info('Done!')
 
 function buildTabRow(item, snapshots) {
-    const rowName = item.id
+    const rowName = getRowName(item)
     const cardMin = item.min || snapshots.find(el => el.id === item.id).min
     const cardMax = item.max || snapshots.find(el => el.id === item.id).max
     const rowType = getType(item, snapshots)
     return `${rowName} & ${cardMin}..${cardMax} & ${rowType} \\\\`
+}
+
+function getRowName(item) {
+    const nameWithPath = item.id.substring(item.id.indexOf('.') +1)
+    const formatted = nameWithPath.replace(/\./g, ' $\\rightarrow$ ').replace(/:/g, ' $\\mid$ ')
+    return formatted
 }
 
 function getType(item, snapshots) {
@@ -108,9 +114,6 @@ function buildTypeString(type, snapshots) {
         return type.code
     }
     const targetProfileId = findIdFromCanonical(type.targetProfile[0])
-    // if (!targetProfileId) {
-    //     return type.code
-    // }
     const name = findProfileNameFromIg(igJson, targetProfileId)
     return `${type.code}(${name})`
 }

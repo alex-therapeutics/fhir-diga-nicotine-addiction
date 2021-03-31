@@ -14,5 +14,4 @@ do
     ./build-table-from-output.js -o ./document/$i.tex -f ./fhir-profile/output/StructureDefinition-$i.json
 done
 
-# TODO add all profiles here.
-# and next try with extensions
+echo "ALL done!"
