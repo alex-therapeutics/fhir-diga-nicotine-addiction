@@ -7,6 +7,7 @@
 \usepackage[colorlinks=true,linkcolor=violet]{hyperref}
 \usepackage{booktabs}
 \usepackage{float}
+\usepackage[all]{hypcap} %jump to img instead of caption text
 
 \usepackage{listings}
 \lstset{
@@ -252,9 +253,10 @@ One common demoninator for apps treating nicotine usage however is that the pati
 Often, the patient also answers questionnaires about various things, to gather information about their nicotine usage and to allow the patient to gain insight themselves on how their addiction works.
 
 To represent these activities, logging and questionnaires, implementers should use \code{NicotineTreatmentQuestionnaire} to define how the questionnaire is presented in the application, 
-and \code{NicotineTreatmentQuestionnaireResponse} to represent an individual patient's response to it. It is required to give a title, description and purpose to the questionnaire to explain what it does.
+and \code{NicotineTreatmentQuestionnaireResponse} (Table \ref{tab:NicotineTreatmentQuestionnaireResponse}) to represent an individual patient's response to it. It is required to give a title, description and purpose to the questionnaire to explain what it does.
 Implementers are encouraged to use the \code{TriggerCode} and \code{EffectiveInterventionCode} value sets when they are appropriate as answers.
 
+\input{nicotine-treatment-questionnaire-response.tex}
 % TODO figure profiles
 
 \subsection{Mandatory metadata for exports}
