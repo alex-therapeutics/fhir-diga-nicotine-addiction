@@ -10,4 +10,5 @@
 *.synctex.gz
 *.out
 *.toc
-__latexindent_temp.tex
+*.tex
+!standard.tex

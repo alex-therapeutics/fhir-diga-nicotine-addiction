@@ -54,7 +54,7 @@ const type = json.type
 
 const bookTabsHeader = 
 `
-\\begin{table}[]
+\\begin{table}[]\\centering
 \\begin{tabular}{@{}lll@{}}
 \\toprule
 \\multicolumn{1}{c}{Name}               & \\multicolumn{1}{c}{card.} & \\multicolumn{1}{c}{Type}       \\\\ \\midrule

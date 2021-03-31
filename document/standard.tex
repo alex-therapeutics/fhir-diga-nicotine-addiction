@@ -35,6 +35,13 @@
 \newcommand{\fhir}{FHIR\textsuperscript{\textregistered}}
 \newcommand{\hl}{HL7\textsuperscript{\textregistered}}
 
+\newcommand{\tabpatient}{\input{self-reported-nicotine-using-patient.tex}}
+\newcommand{\tabcondition}{\input{self-reported-nicotine-usage.tex}}
+\newcommand{\tabplan}{\input{nicotine-usage-treatment-plan.tex}}
+\newcommand{\tabquestionnaire}{\input{nicotine-treatment-questionnaire.tex}}
+\newcommand{\tabresponse}{\input{nicotine-treatment-questionnaire-response.tex}}
+\newcommand{\tabcomposition}{\input{exported-nicotine-usage-treatment-data.tex}}
+
 \begin{document}
 
 \tableofcontents
@@ -189,14 +196,14 @@ The resources can be accessed and downloaded at the \href{https://simplifier.net
 We will list the artifacts here in the context of how to use them along with figures describing them. Note that we will only show and discuss the differential tables here, the resources otherwise conform to the core FHIR specification and you can view the full resources in snapshot form in the implementation guide.
 
 \subsection{Representing an app user/patient}
+\tabpatient
 
-The DiGA user (patient) will be represented using the \code{SelfReportedNicotineUsingPatient} resource. This resource should be used when the DiGA user is not supervised by a medical professional during the DiGA treatment, which means the
+The DiGA user (patient) will be represented using the \code{SelfReportedNicotineUsingPatient} resource (Table \ref{tab:SelfReportedNicotineUsingPatient}). This resource should be used when the DiGA user is not supervised by a medical professional during the DiGA treatment, which means the
 patient is \textit{self reporting}.
 
 Since there will be different information available on the patient for different DiGAs, this is a flexible profile allowing all defaults on \code{Patient}. 
 There are however two optional extensions to quickly give information on this person's common triggers for nicotine usage and interventions that have been effective for this person.
 
-% TODO figure patient
 
 The extension field \code{commonNicotineTrigger} allows for exporting information about which common triggers there are for a patient's nicotine usage. 
 Values for this extension \textbf{should} be from the value set \code{TriggerCode} (fig TODO). If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
@@ -219,13 +226,12 @@ and implementers \textbf{may} raise an issue on GitHub \cite{github} to include 
 % TODO figure codesystem?
 
 \subsection{Representing the condition}
+\tabcondition
 
-The profile on \code{Condition} called \code{SelfReportedNicotineUsage} should be used when the condition is not supervised by a medical professional during the DiGA treatment, but self-reported by the patient.
+The profile on \code{Condition} called \code{SelfReportedNicotineUsage} (Table \ref{tab:SelfReportedNicotineUsage}) should be used when the condition is not supervised by a medical professional during the DiGA treatment, but self-reported by the patient.
 It allows the DiGA to make it clear what is being treated while at the same time making it clear that the DiGA is not making the diagnosis and that the status of the condition is reported by the patient him/herself. 
 To achieve this, the profile disallows clinical attributes like evidence, clinicalStatus etc. It adds an extension called \code{currentSelfReportedSmokingStatus} to allow for a readily accessible way to find out what the current status of the condition is reported to be. 
 The condition coding points to the german base profile's \cite{debasis} ICD-10-GM code \cite{icd} for nicotine addiction, F17.2.
-
-% TODO figure condition
 
 % TODO figure extension
 
@@ -236,18 +242,17 @@ Values for this extension's \code{status} attribute \textbf{should} be from the 
 and implementers \textbf{may} raise an issue on GitHub \cite{github} to include their code in the value set in future versions of the Standard.
 
 \subsection{Representing the DiGA care program}
-
+\tabplan
 For patient journals and doctors there needs to be a quick way of discovering what the DiGA does or did when the patient was using it. 
-Implementers should use the profile on \code{Condition} called \code{NicotineUsageTreatmentPlan} for this. 
+Implementers should use the profile on \code{Condition} called \code{NicotineUsageTreatmentPlan} (Table \ref{tab:NicotineUsageTreatmentPlan} for this. 
 Furthermore, implementers \textbf{must} use the \code{description} field to write a summary of what the DiGA does as part of its program.
 Consumers of the resource should use these fields to gain a brief understanding of what the DiGA does as part of its treatment.
 There is an optional extension available, \code{selfReportedSmokingStatus}, to allow for a timeline of how the nicotine usage status of the patient has changed over time, with one record each time the patient has reported a change in the status. 
 If the implementer has this data, it should be in included in the data using this extension. The extension used for this is the one defined in Figure \ref{TODO}.
 
-% TODO figure profile
-
 \subsection{Representing app activities}
-
+\tabquestionnaire
+\tabresponse
 App activities can vary between DiGAs so implementers are free to represent these in various ways including \code{CarePlan}'s \code{activity} field. 
 One common demoninator for apps treating nicotine usage however is that the patients are encouraged to track, \textit{log}, their cigarettes. 
 Often, the patient also answers questionnaires about various things, to gather information about their nicotine usage and to allow the patient to gain insight themselves on how their addiction works.
@@ -256,21 +261,15 @@ To represent these activities, logging and questionnaires, implementers should u
 and \code{NicotineTreatmentQuestionnaireResponse} (Table \ref{tab:NicotineTreatmentQuestionnaireResponse}) to represent an individual patient's response to it. It is required to give a \code{titte}, \code{description} and \code{purpose} to the questionnaire to explain what it does.
 Implementers are encouraged to use the \code{TriggerCode} and \code{EffectiveInterventionCode} value sets when they are appropriate as answers (TODO ref to tables).
 
-\input{nicotine-treatment-questionnaire.tex}
-\input{nicotine-treatment-questionnaire-response.tex}
-% TODO figure profiles
-
 \subsection{Mandatory metadata for exports}
 \label{sec:comp}
-
+\tabcomposition
 When exporting data for a single patient in a \code{Bundle}, as described in \ref{sec:export}, there must be metadata present. 
-For this, a profile on \code{Composition} is used called \code{ExportedNicotineUsageTreatmentData}.
+For this, a profile on \code{Composition} is used called \code{ExportedNicotineUsageTreatmentData} (Table \ref{tab:ExportedNicotineUsageTreatmentData}).
 The \code{section} field is sliced to contain sections for all resources required to export a single patient's data: 
 \code{patientData}, \code{selfReportedCondition}, \code{nicotineUsageTreatmentPlan}, \code{questionnaires}, and \code{questionnaireResponses}.
 Each of these must contain a reference to a resource contained in the \code{Bundle}. For example, the section slice \code{selfReportedCondition} must
 contain a reference to the patient's \code{SelfReportedNicotineUsage} condition.
-
-% TODO figure profile
 
 \printbibliography[heading=bibintoc, title={References}]
 
