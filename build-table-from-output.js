@@ -98,16 +98,20 @@ function getType(item, snapshots) {
     }
     const types = item.type || snapshots.find(el => el.id === item.id).type
     if (types.length === 1) {
+        console.info(types)
         return buildTypeString(types[0], snapshots)
     }
     return type.code
 }
 
 function buildTypeString(type, snapshots) {
-    const targetProfileId = findIdFromCanonical(type.targetProfile[0])
-    if (!targetProfileId) {
+    if (!type.targetProfile) {
         return type.code
     }
+    const targetProfileId = findIdFromCanonical(type.targetProfile[0])
+    // if (!targetProfileId) {
+    //     return type.code
+    // }
     const name = findProfileNameFromIg(igJson, targetProfileId)
     return `${type.code}(${name})`
 }
