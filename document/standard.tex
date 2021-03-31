@@ -9,7 +9,25 @@
 \usepackage{float}
 
 \usepackage{listings}
-% \lstset{language=xml,keywordstyle={\bfseries \color{blue}}}
+\lstset{
+    language=xml,
+    basicstyle=\footnotesize,
+    stringstyle={\ttfamily \color{teal}},
+    keywordstyle={\bfseries \color{blue}},
+    showstringspaces=false,
+    frame=tb,
+    morekeywords={
+        Bundle, 
+        Composition, 
+        Patient, 
+        Organization, 
+        Condition, 
+        Questionnaire, 
+        QuestionnaireResponse,
+        CarePlan
+        }
+    }
+% \lstset{language=json,keywordstyle={\bfseries \color{blue}}}
 % \lstset{keywordstyle={\bfseries \color{blue}}}
 \def\code#1{\texttt{#1}} %format for \code text
 
@@ -229,11 +247,11 @@ If the implementer has this data, it should be in included in the data using thi
 
 \subsection{Representing app activities}
 
-App activities can vary between DiGAs so implementors are free to represent these in various ways including \code{CarePlan}'s \code{activity} field. 
+App activities can vary between DiGAs so implementers are free to represent these in various ways including \code{CarePlan}'s \code{activity} field. 
 One common demoninator for apps treating nicotine usage however is that the patients are encouraged to track, \textit{log}, their cigarettes. 
 Often, the patient also answers questionnaires about various things, to gather information about their nicotine usage and to allow the patient to gain insight themselves on how their addiction works.
 
-To represent these activities, logging and questionnaires, implementors should use \code{NicotineTreatmentQuestionnaire} to define how the questionnaire is presented in the application, 
+To represent these activities, logging and questionnaires, implementers should use \code{NicotineTreatmentQuestionnaire} to define how the questionnaire is presented in the application, 
 and \code{NicotineTreatmentQuestionnaireResponse} to represent an individual patient's response to it. It is required to give a title, description and purpose to the questionnaire to explain what it does.
 Implementers are encouraged to use the \code{TriggerCode} and \code{EffectiveInterventionCode} value sets when they are appropriate as answers.
 
@@ -259,9 +277,11 @@ contain a reference to the patient's \code{SelfReportedNicotineUsage} condition.
 \chapter{Examples}
 \label{app:ex}
 
-Include a FHIR bundle resource example export
+For completeness, we include one full example of a \code{Bundle} export containing one patient's complete set of data exported according to the Standard.
+This example along with individual examples of each profile is available online at the \href{https://simplifier.net/treat-nicotine-usage-diga}{project page on Simplifier.net} \cite{project}.
 
-Include some JSON examples of each resource
+\lstinputlisting[breaklines]{../fhir-profile/output/Bundle-PatientExportBundleExample.xml}
+% \lstinputlisting{../fhir-profile/output/Bundle-PatientExportBundleExample.json}
 
 
 \end{document}

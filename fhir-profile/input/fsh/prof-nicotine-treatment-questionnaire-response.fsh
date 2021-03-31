@@ -25,11 +25,10 @@ Instance: QuestionnaireExample
 InstanceOf: NicotineTreatmentQuestionnaire
 Usage: #inline
 * title = "Logging a trigger"
-* description = "This questionnaire asks the patient what trigger they feel right now"
+* description = "This questionnaire asks the patient what they are feeling or which situation they are in right now"
 * purpose = "This enables the patient to understand their own triggers, as well as for the DiGA to gain information on which triggers are common for this patient"
 * status = #active
 * item[0].linkId = "TRIGGER"
 * item[0].type = #choice
 * item[0].text = "In what situation are you right now?"
 * item[0].answerValueSet = Canonical(TriggerCode)
-
