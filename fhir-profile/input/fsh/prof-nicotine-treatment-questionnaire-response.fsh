@@ -15,13 +15,13 @@ An example of a response to a nicotine treatment questionnaire.
 In this case, the reply must be from the TriggerCode valueset. The patient answered this time that he/she was 'waiting' for something, and that triggered them to smoke.
 """
 InstanceOf: NicotineTreatmentQuestionnaireResponse
-* questionnaire = Canonical(InlineQuestionnaire)
-* source = Reference(InlinePatient)
+* questionnaire = Canonical(QuestionnaireExample)
+* source = Reference(SelfReportedNicotineUsingPatientExample)
 * status = #completed
 * item[0].linkId = "TRIGGER"
 * item[0].answer[0].valueCoding = TriggerCodeSystem#waiting
 
-Instance: InlineQuestionnaire
+Instance: QuestionnaireExample
 InstanceOf: NicotineTreatmentQuestionnaire
 Usage: #inline
 * title = "Logging a trigger"
@@ -33,6 +33,3 @@ Usage: #inline
 * item[0].text = "In what situation are you right now?"
 * item[0].answerValueSet = Canonical(TriggerCode)
 
-Instance: InlinePatient
-InstanceOf: SelfReportedNicotineUsingPatient
-Usage: #inline

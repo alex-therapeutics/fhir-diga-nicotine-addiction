@@ -11,55 +11,55 @@ Description: "Common interventions for nicotine use"
 * #drink-water "Drink Water" "Taking a glass of water"
 * #imagine-your-future "Imagining your future" "Imagining your future"
 * #squats "Squats" "Do some squats"
-* #luxury_breakfast "Luxury Breakfast" "Have a luxurious breakfast"
-* #seven_min_workout "Seven Minute Workout" "Workout for seven minutes"
+* #luxury-breakfast "Luxury Breakfast" "Have a luxurious breakfast"
+* #seven-min-workout "Seven Minute Workout" "Workout for seven minutes"
 * #rerun "Rerun" "Watch a re-run of your favourite show"
 * #snack "Have a snack" "Have a snack"
-* #paus_timer
+* #paus-timer
 * #altruism
 * #powernap "Powernap" "Take a power-nap"
 * #focus "Focus" "Focus on something else"
-* #serotonin_boost
-* #phone_a_friend "Phone a friend" "Phone a friend"
-* #level_up
-* #home_spa
+* #serotonin-boost
+* #phone-a-friend "Phone a friend" "Phone a friend"
+* #level-up
+* #home-spa
 * #recharge
-* #wash_up
-* #tidy_up
-* #think_of_someone
-* #nature_experience
-* #have_a_laugh
-* #brush_teeth "Brush your teeth" "Brush your teeth"
-* #best_friend
+* #wash-up
+* #tidy-up
+* #think-of-someone
+* #nature-experience
+* #have-a-laugh
+* #brush-teeth "Brush your teeth" "Brush your teeth"
+* #best-friend
 * #sing "Sing" "Sing"
 * #breathing "Breathing" "Deep breathing"
 * #prioritize
-* #cold_splash
-* #tap_on_shoulder
+* #cold-splash
+* #tap-on-shoulder
 * #hug
-* #save_for_your_dream
-* #final_no
+* #save-for-your-dream
+* #final-no
 * #youtube
-* #pet_animal
-* #chewing_gum
-* #dance_off
-* #dress_up
-* #mindful_listening
+* #pet-animal
+* #chewing-gum
+* #dance-off
+* #dress-up
+* #mindful-listening
 * #coffee "Coffee" "Have a coffee"
-* #swap_coffee_for_tea
-* #small_steps_big_goal
-* #price_of_a_pack
+* #swap-coffee-for-tea
+* #small-steps-big-goal
+* #price-of-a-pack
 * #stroll "Stroll" "Take a stroll"
 * #bath "Bath" "Take a bath"
 * #fruit
-* #alone_time
+* #alone-time
 * #sports
-* #reverse_routine
-* #book_a_date
-* #lose_yourself
+* #reverse-routine
+* #book-a-date
+* #lose-yourself
 * #jog "Job" "Take a jog"
-* #portable_hobby
+* #portable-hobby
 * #drawing
-* #change_surroundings
-* #learn_something_new
-* #fresh_breaths
+* #change-surroundings
+* #learn-something-new
+* #fresh-breaths
