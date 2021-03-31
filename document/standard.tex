@@ -252,10 +252,11 @@ App activities can vary between DiGAs so implementers are free to represent thes
 One common demoninator for apps treating nicotine usage however is that the patients are encouraged to track, \textit{log}, their cigarettes. 
 Often, the patient also answers questionnaires about various things, to gather information about their nicotine usage and to allow the patient to gain insight themselves on how their addiction works.
 
-To represent these activities, logging and questionnaires, implementers should use \code{NicotineTreatmentQuestionnaire} to define how the questionnaire is presented in the application, 
+To represent these activities, logging and questionnaires, implementers should use \code{NicotineTreatmentQuestionnaire} (Table \ref{tab:NicotineTreatmentQuestionnaire}) to define how the questionnaire is presented in the application, 
 and \code{NicotineTreatmentQuestionnaireResponse} (Table \ref{tab:NicotineTreatmentQuestionnaireResponse}) to represent an individual patient's response to it. It is required to give a \code{titte}, \code{description} and \code{purpose} to the questionnaire to explain what it does.
 Implementers are encouraged to use the \code{TriggerCode} and \code{EffectiveInterventionCode} value sets when they are appropriate as answers (TODO ref to tables).
 
+\input{nicotine-treatment-questionnaire.tex}
 \input{nicotine-treatment-questionnaire-response.tex}
 % TODO figure profiles
 

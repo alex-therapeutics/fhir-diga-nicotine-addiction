@@ -98,7 +98,6 @@ function getType(item, snapshots) {
     }
     const types = item.type || snapshots.find(el => el.id === item.id).type
     if (types.length === 1) {
-        console.info(types)
         return buildTypeString(types[0], snapshots)
     }
     return type.code
