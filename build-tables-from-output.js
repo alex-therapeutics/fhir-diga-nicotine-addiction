@@ -86,3 +86,6 @@ function findIdFromCanonical(canonical) {
     const split = canonical.split('/')
     return split[split.length - 1]
 }
+
+ // TODO make binding and then script starter which runs these for all profiles
+ // also make one for extensions..

@@ -56,7 +56,7 @@ Henceforth in this text, the \textit{Standard} refers to this document in combin
     \end{table}
 
 \section{Objective}
-The purpose of the Standard is to establish a standard way of interoperability for Digital Health Applications (DiGAs) that treat self-reported nicotine usage (F17.2 using the ICD-10 coding system). The Standard must be based on internationally recognized
+The purpose of the Standard is to establish a standard way of interoperability for Digital Health Applications (DiGAs) that treat self-reported nicotine usage (F17.2 using the ICD-10 coding system \cite{dimdi}). The Standard must be based on internationally recognized
 standards for interoperability within healthcare. The Standard should be as flexible as possible to allow for different applications to fit it to their need. The specific use-cases that the Standard is targetting are:
 
 \begin{itemize}
@@ -134,7 +134,7 @@ is the coding used for addiction syndrome related to tobacco.
 \chapter{Specification}
 \label{ch:spec}
 
-This chapter contains descriptions of the FHIR resources developed for use by DiGA treating nicotine addiction (F17.2). It is important to note that the DiGAs that implement this standard do not and should not
+This chapter contains descriptions of the FHIR resources developed for use by DiGA treating nicotine addiction (F17.2 \cite{dimdi}). It is important to note that the DiGAs that implement this standard do not and should not
 make the diagnosis that the patient is addicted to nicotine: that is done previously by a medical professional who prescribes the DiGA or the condition is recognized by the patient him/herself. 
 Thus, data references to the medical condition and to status updates of it are explicitly stated to be \textit{self reported}, which refers to this fact.
 
@@ -144,7 +144,7 @@ well-specified structure for exporting a single patient's data (see \ref{sec:exp
 
 \section{Dependencies}
 
-The profiles in the Standard depend on the core \fhir \cite{FHIR} profiles, and on the German national profile \cite{debasis}.
+The profiles in the Standard depend on the core \fhir \cite{FHIR} profiles, and on the German national FHIR profile \cite{debasis}.
 
 \section{Exporting Data}
 \label{sec:export}
@@ -154,7 +154,7 @@ but in particular with exporting a \textit{single patient's} data as one documen
 
 When exporting a single patient's data, implementers \textbf{must} use the \code{Bundle} \fhir resource \cite{bundle}. A bundle \textbf{must} contain an \code{ExportedNicotineUsageTreatmentData} resource (see \ref{sec:comp}), which is a profile on \code{Composition},
 which defines metadata about what is contained in the bundle and where to find it. Next, the bundle must contain all resources pointed to in the composition. In this way, it is possible
-to export all relevant data for a single patient in one document using the Standard. There is an example of this in TODO(APPENDIX).
+to export all relevant data for a single patient in one document using the Standard. There is an example of this in Appendix \ref{app:ex}.
 
 \section{Artefacts}
 The FHIR profiles, extensions, valuesets and codesystems built for the Standard are listed in Table \ref{tab:all}.
@@ -221,7 +221,7 @@ and implementers \textbf{may} raise an issue on GitHub \cite{github} to include 
 \subsection{Representing the condition}
 
 The profile on \code{Condition} called \code{SelfReportedNicotineUsage} should be used when the condition is not supervised by a medical professional during the DiGA treatment, but self-reported by the patient.
-I allows the DiGA to make it clear what is being treated while at the same time making it clear that the DiGA is not making the diagnosis and that the status of the condition is reported by the patient him/herself. 
+It allows the DiGA to make it clear what is being treated while at the same time making it clear that the DiGA is not making the diagnosis and that the status of the condition is reported by the patient him/herself. 
 To achieve this, the profile disallows clinical attributes like evidence, clinicalStatus etc. It adds an extension called \code{currentSelfReportedSmokingStatus} to allow for a readily accessible way to find out what the current status of the condition is reported to be. 
 The condition coding points to the german base profile's \cite{debasis} ICD-10-GM code \cite{icd} for nicotine addiction, F17.2.
 
@@ -239,7 +239,7 @@ and implementers \textbf{may} raise an issue on GitHub \cite{github} to include 
 
 For patient journals and doctors there needs to be a quick way of discovering what the DiGA does or did when the patient was using it. 
 Implementers should use the profile on \code{Condition} called \code{NicotineUsageTreatmentPlan} for this. 
-Furthermore, implementers \textbf{must} use the \code{description} and \code{purpose} fields to describe what the DiGA does as part of its program, and what the purpose of it is. 
+Furthermore, implementers \textbf{must} use the \code{description} field to write a summary of what the DiGA does as part of its program.
 Consumers of the resource should use these fields to gain a brief understanding of what the DiGA does as part of its treatment.
 There is an optional extension available, \code{selfReportedSmokingStatus}, to allow for a timeline of how the nicotine usage status of the patient has changed over time, with one record each time the patient has reported a change in the status. 
 If the implementer has this data, it should be in included in the data using this extension. The extension used for this is the one defined in Figure \ref{TODO}.
@@ -253,8 +253,8 @@ One common demoninator for apps treating nicotine usage however is that the pati
 Often, the patient also answers questionnaires about various things, to gather information about their nicotine usage and to allow the patient to gain insight themselves on how their addiction works.
 
 To represent these activities, logging and questionnaires, implementers should use \code{NicotineTreatmentQuestionnaire} to define how the questionnaire is presented in the application, 
-and \code{NicotineTreatmentQuestionnaireResponse} (Table \ref{tab:NicotineTreatmentQuestionnaireResponse}) to represent an individual patient's response to it. It is required to give a title, description and purpose to the questionnaire to explain what it does.
-Implementers are encouraged to use the \code{TriggerCode} and \code{EffectiveInterventionCode} value sets when they are appropriate as answers.
+and \code{NicotineTreatmentQuestionnaireResponse} (Table \ref{tab:NicotineTreatmentQuestionnaireResponse}) to represent an individual patient's response to it. It is required to give a \code{titte}, \code{description} and \code{purpose} to the questionnaire to explain what it does.
+Implementers are encouraged to use the \code{TriggerCode} and \code{EffectiveInterventionCode} value sets when they are appropriate as answers (TODO ref to tables).
 
 \input{nicotine-treatment-questionnaire-response.tex}
 % TODO figure profiles
