@@ -2,12 +2,50 @@
 const fs = require('fs')
 
 // This converts one structure definition into a latex booktabs table
-const target = './document/nicotine-treatment-questionnaire-response.tex'
 
-const file = './fhir-profile/output/StructureDefinition-nicotine-treatment-questionnaire-response.json'
+const help = 'Missing arguments. Pass the input FHIR resource json file with -f {filename} and the target tex file output path with -o {path}. Optionally, you can choose the target implementation guide path with -i.'
+let args = process.argv
+if (args.length < 3) {
+    console.error(help)
+    return
+}
+
+let target;
+let file;
+let igFile = './fhir-profile/fsh-generated/resources/ImplementationGuide-com.alextherapeutics.fhir.nicotine.json'
+const available = ['-h', '-f', '-o', '-i']
+args.shift() // remove the first node args
+args.shift()
+while (args.length > 0) {
+    const operator = args.shift()
+    if (!available.includes(operator)) {
+        console.error(help)
+        return
+    }
+    if (operator === '-h') {
+        console.info(help)
+        return
+    } 
+    const arg = args.shift()
+    if (operator === '-o') {
+        target = arg
+    } else if (operator === '-f') {
+        file = arg
+    } else if (operator === '-i') {
+        igFile = arg
+    } else {
+        console.error('Internal error. Shouldnt arrive here')
+        return
+    }
+}
+if (!target || !file) {
+    console.error('You must specify an output path and file target. See -h for help')
+    return
+}
+
+console.info(`Using the FHIR file ${file} to generate a LaTeX booktabs table to ${target}...`)
 const json = JSON.parse(fs.readFileSync(file))
 
-const igFile = './fhir-profile/fsh-generated/resources/ImplementationGuide-com.alextherapeutics.fhir.nicotine.json'
 const igJson = JSON.parse(fs.readFileSync(igFile))
 
 const uri = json.url
