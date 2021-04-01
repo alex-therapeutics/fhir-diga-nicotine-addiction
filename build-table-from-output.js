@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs')
 
-// This converts one structure definition into a latex booktabs table
+// This converts one structure definition or code system into a latex booktabs table
 
 const help = 'Missing arguments. Pass the input FHIR resource json file with -f {filename} and the target tex file output path with -o {path}. Optionally, you can choose the target implementation guide path with -i.'
 let args = process.argv
@@ -25,7 +25,7 @@ while (args.length > 0) {
     if (operator === '-h') {
         console.info(help)
         return
-    } 
+    }
     const arg = args.shift()
     if (operator === '-o') {
         target = arg
@@ -47,45 +47,76 @@ console.info(`Using the FHIR file ${file} to generate a LaTeX booktabs table to 
 const json = JSON.parse(fs.readFileSync(file))
 const igJson = JSON.parse(fs.readFileSync(igFile))
 
-const uri = json.url
-const name = json.name
-const type = json.type
+const result = json.resourceType === 'CodeSystem'
+    ? buildTableFromCodeSystem(json, igJson)
+    : buildTableFromStructureDefinition(json, igJson)
 
-const bookTabsHeader = 
+fs.writeFileSync(target, result)
+console.info('Done')
+
+// ---------------------------------------------------------------------------------------------------------
+// functions
+
+function buildTableFromCodeSystem(json, igJson) {
+    const name = json.name
+    const bookTabsHeader =
+        `
+\\begin{table}[]\\centering
+\\begin{tabular}{@{}ll@{}}
+\\toprule
+\\multicolumn{1}{c}{code}               & \\multicolumn{1}{c}{definition}       \\\\ \\midrule
 `
+    const structureHeader = `
+\\textbf{${name}} & \\textbf{${json.description}}  \\\\ \\midrule
+`
+    const rows = json.concept.map(item => `${item.code} & ${item.definition} \\\\`)
+    const elements = rows.join('\n').concat('\\bottomrule')
+    const bookTabsEnd = `
+\\end{tabular}
+\\caption{The ${name} code system.}
+\\label{tab:${name}}
+\\end{table}
+`
+    return bookTabsHeader + structureHeader + elements + bookTabsEnd
+}
+
+function buildTableFromStructureDefinition(json, igJson) {
+
+    const uri = json.url
+    const name = json.name
+    const type = json.type
+
+    const bookTabsHeader =
+        `
 \\begin{table}[]\\centering
 \\begin{tabular}{@{}lll@{}}
 \\toprule
 \\multicolumn{1}{c}{Name}               & \\multicolumn{1}{c}{card.} & \\multicolumn{1}{c}{Type}       \\\\ \\midrule
 `
 
-const structureHeader = `
+    const structureHeader = `
 \\textbf{${name}} & \\textbf{-}                & \\textbf{${type}} \\\\ \\midrule
 `
 
-const jsonDifferential = json.differential.element
-jsonDifferential.shift() // first element is the parent
-const jsonSnapshot = json.snapshot.element
+    const jsonDifferential = json.differential.element
+    jsonDifferential.shift() // first element is the parent
+    const jsonSnapshot = json.snapshot.element
 
-const tabRows = jsonDifferential.map(item => buildTabRow(item, jsonSnapshot))
-const elements = tabRows.join('\n').concat('\\bottomrule')
-const bookTabsEnd = `
+    const tabRows = jsonDifferential.map(item => buildTabRow(item, jsonSnapshot, type))
+    const elements = tabRows.join('\n').concat('\\bottomrule')
+    const bookTabsEnd = `
 \\end{tabular}
 \\caption{The differential for the ${name} profile when compared to the base ${type} resource.}
 \\label{tab:${name}}
 \\end{table}
 `
-const result = bookTabsHeader + structureHeader + elements + bookTabsEnd
-
-fs.writeFileSync(target, result)
-
-console.info('Done!')
-
-function buildTabRow(item, snapshots) {
+    return bookTabsHeader + structureHeader + elements + bookTabsEnd
+}
+function buildTabRow(item, snapshots, type) {
     const rowName = getRowName(item)
     const cardMin = item.min !== undefined ? item.min : snapshots.find(el => el.id === item.id).min //|| 0
     const cardMax = item.max || snapshots.find(el => el.id === item.id).max
-    const rowType = getType(item, snapshots)
+    const rowType = getType(item, snapshots, type)
     if (rowType === undefined) {
         console.warn(`${rowName} had undefined type. ignoring`)
         return ''
@@ -94,12 +125,12 @@ function buildTabRow(item, snapshots) {
 }
 
 function getRowName(item) {
-    const nameWithPath = item.id.substring(item.id.indexOf('.') +1)
+    const nameWithPath = item.id.substring(item.id.indexOf('.') + 1)
     const formatted = nameWithPath.replace(/\./g, ' $\\rightarrow$ ').replace(/:/g, ' $\\mid$ ')
     return formatted
 }
 
-function getType(item, snapshots) {
+function getType(item, snapshots, type) {
     if (item.fixedUri) {
         return `uri=${item.fixedUri}`
     }
@@ -152,6 +183,3 @@ function findIdFromCanonical(canonical) {
     const split = canonical.split('/')
     return split[split.length - 1]
 }
-
- // TODO make binding and then script starter which runs these for all profiles
- // also make one for extensions..

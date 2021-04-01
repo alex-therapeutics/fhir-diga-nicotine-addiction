@@ -28,13 +28,12 @@
         CarePlan
         }
     }
-% \lstset{language=json,keywordstyle={\bfseries \color{blue}}}
-% \lstset{keywordstyle={\bfseries \color{blue}}}
 \def\code#1{\texttt{#1}} %format for \code text
 
 \newcommand{\fhir}{FHIR\textsuperscript{\textregistered}}
 \newcommand{\hl}{HL7\textsuperscript{\textregistered}}
 
+% files generated ty the script build-tables.sh
 \newcommand{\tabpatient}{\input{self-reported-nicotine-using-patient.tex}}
 \newcommand{\tabcondition}{\input{self-reported-nicotine-usage.tex}}
 \newcommand{\tabplan}{\input{nicotine-usage-treatment-plan.tex}}
@@ -44,6 +43,8 @@
 \newcommand{\tabtriggerext}{\input{nicotine-trigger.tex}}
 \newcommand{\tabinterventionext}{\input{effective-nicotine-intervention.tex}}
 \newcommand{\tabstatusext}{\input{self-reported-smoking-status.tex}}
+\newcommand{\tabstatuscs}{\input{self-reported-status-code-system.tex}}
+\newcommand{\tabtriggercs}{\input{trigger-code-system.tex}}
 
 \begin{document}
 
@@ -208,36 +209,29 @@ There are however two optional extensions to quickly give information on this pe
 
 \tabtriggerext
 The extension field \code{commonNicotineTrigger} (Table \ref{tab:NicotineTrigger}) allows for exporting information about which common triggers there are for a patient's nicotine usage. 
-Values for this extension \textbf{should} be from the value set \code{TriggerCode}. If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
+Values for this extension \textbf{should} be from the value set \code{TriggerCode} which includes codes from Table \ref{tab:TriggerCodeSystem}. If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
 and implementers \textbf{may} raise an issue on GitHub \cite{github} to include their code in the value set in future versions of the Standard.
 
-
-% TODO figure valueset
-
-% TODO figure codesystem?
-
+\tabtriggercs
 \tabinterventionext
+
 The extension field \code{effectiveNicotineIntervention} (Table \ref{tab:EffectiveNicotineIntervention}) allows for exporting information about which interventions have been effective for this patient to prevent their use of nicotine.
 Values for this extension \textbf{should} be from the value set \code{EffectiveInterventionCode} (fig). If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
 and implementers \textbf{may} raise an issue on GitHub \cite{github} to include their code in the value set in future versions of the Standard.
-
-% TODO figure valueset
-
-% TODO figure codesystem?
 
 \subsection{Representing the condition}
 \tabcondition
 
 The profile on \code{Condition} called \code{SelfReportedNicotineUsage} (Table \ref{tab:SelfReportedNicotineUsage}) should be used when the condition is not supervised by a medical professional during the DiGA treatment, but self-reported by the patient.
 It allows the DiGA to make it clear what is being treated while at the same time making it clear that the DiGA is not making the diagnosis and that the status of the condition is reported by the patient him/herself. 
-To achieve this, the profile disallows clinical attributes like evidence, clinicalStatus etc. It adds an extension called \code{currentSelfReportedSmokingStatus} to allow for a readily accessible way to find out what the current status of the condition is reported to be. 
-The condition coding points to the german base profile's \cite{debasis} ICD-10-GM code \cite{icd} for nicotine addiction, F17.2.
+To achieve this, the profile disallows clinical attributes like evidence, clinicalStatus etc. It adds an extension called \code{currentSelfReportedSmokingStatus} to allow for a readily accessible way to find out what the current status of the condition is reported to be.
+The condition \code{coding} points to the german base profile's \cite{debasis} ICD-10-GM code \cite{icd} for nicotine addiction, F17.2.
 
-% TODO figure valueset & codesystem
-
+\tabstatuscs
 \tabstatusext
+
 The extension field \code{currentSelfReportedSmokingStatus} (Table \ref{tab:SelfReportedSmokingStatus}) allows for quickly viewing the status on the condition. It should include the latest report on the condition status made by the patient.
-Values for this extension's \code{status} attribute \textbf{should} be from the value set \code{SelfReportedSmokingStatusCode} (fig). If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
+Values for this extension's \code{status} attribute \textbf{should} be from the value set \code{SelfReportedSmokingStatusCode} which includes codes from Table \ref{tab:SelfReportedStatusCodeSystem}. If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
 and implementers \textbf{may} raise an issue on GitHub \cite{github} to include their code in the value set in future versions of the Standard.
 
 \subsection{Representing the DiGA care program}
@@ -271,7 +265,6 @@ Each of these must contain a reference to a resource contained in the \code{Bund
 contain a reference to the patient's \code{SelfReportedNicotineUsage} condition.
 
 \printbibliography[heading=bibintoc, title={References}]
-
 
 \appendix
 
