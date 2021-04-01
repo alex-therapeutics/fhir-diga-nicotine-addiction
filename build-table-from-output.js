@@ -85,6 +85,10 @@ function buildTableFromStructureDefinition(json, igJson) {
     const uri = json.url
     const name = json.name
     const type = json.type
+    const kind = json.kind
+    const caption = kind === 'resource'
+    ? `The differential for the ${name} profile when compared to the base ${type} resource.`
+    : `The differential for the ${name} extension.`
 
     const bookTabsHeader =
         `
@@ -106,7 +110,7 @@ function buildTableFromStructureDefinition(json, igJson) {
     const elements = tabRows.join('\n').concat('\\bottomrule')
     const bookTabsEnd = `
 \\end{tabular}
-\\caption{The differential for the ${name} profile when compared to the base ${type} resource.}
+\\caption{${caption}}
 \\label{tab:${name}}
 \\end{table}
 `
