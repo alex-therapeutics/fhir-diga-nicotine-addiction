@@ -6,8 +6,11 @@ EXP=exported-nicotine-usage-treatment-data
 PLAN=nicotine-usage-treatment-plan
 COND=self-reported-nicotine-usage
 PATIENT=self-reported-nicotine-using-patient
+NIC=nicotine-trigger
+INT=effective-nicotine-intervention
+STATUS=self-reported-smoking-status
 
-declare -a resources=($Q $Q_RESP $EXP $PLAN $COND $PATIENT)
+declare -a resources=($Q $Q_RESP $EXP $PLAN $COND $PATIENT $NIC $INT $STATUS)
 
 for i in "${resources[@]}"
 do

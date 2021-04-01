@@ -45,7 +45,6 @@ if (!target || !file) {
 
 console.info(`Using the FHIR file ${file} to generate a LaTeX booktabs table to ${target}...`)
 const json = JSON.parse(fs.readFileSync(file))
-
 const igJson = JSON.parse(fs.readFileSync(igFile))
 
 const uri = json.url
@@ -84,9 +83,13 @@ console.info('Done!')
 
 function buildTabRow(item, snapshots) {
     const rowName = getRowName(item)
-    const cardMin = item.min || snapshots.find(el => el.id === item.id).min
+    const cardMin = item.min !== undefined ? item.min : snapshots.find(el => el.id === item.id).min //|| 0
     const cardMax = item.max || snapshots.find(el => el.id === item.id).max
     const rowType = getType(item, snapshots)
+    if (rowType === undefined) {
+        console.warn(`${rowName} had undefined type. ignoring`)
+        return ''
+    }
     return `${rowName} & ${cardMin}..${cardMax} & ${rowType} \\\\`
 }
 
@@ -97,16 +100,34 @@ function getRowName(item) {
 }
 
 function getType(item, snapshots) {
+    if (item.fixedUri) {
+        return `uri=${item.fixedUri}`
+    }
+    if (item.id.includes('valueDate')) {
+        return 'date'
+    }
+    if (item.id.includes('valueCodeableConcept')) {
+        return 'CodeableConcept'
+    }
     if (item.binding) {
         const valueSetId = findIdFromCanonical(item.binding.valueSet)
         const valueSetName = findProfileNameFromIg(igJson, valueSetId)
         return `${valueSetName} (${item.binding.strength})`
     }
     const types = item.type || snapshots.find(el => el.id === item.id).type
+    let typeString
     if (types.length === 1) {
-        return buildTypeString(types[0], snapshots)
+        typeString = buildTypeString(types[0], snapshots)
+    } else {
+        typeString = type.code
     }
-    return type.code
+    let pattern
+    if (item.patternString) {
+        pattern = item.patternString
+    } else if (item.patternCode) {
+        pattern = item.patternCode
+    }
+    return pattern !== undefined ? `${typeString} = ${pattern}` : typeString
 }
 
 function buildTypeString(type, snapshots) {

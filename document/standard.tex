@@ -41,6 +41,9 @@
 \newcommand{\tabquestionnaire}{\input{nicotine-treatment-questionnaire.tex}}
 \newcommand{\tabresponse}{\input{nicotine-treatment-questionnaire-response.tex}}
 \newcommand{\tabcomposition}{\input{exported-nicotine-usage-treatment-data.tex}}
+\newcommand{\tabtriggerext}{\input{nicotine-trigger.tex}}
+\newcommand{\tabinterventionext}{\input{effective-nicotine-intervention.tex}}
+\newcommand{\tabstatusext}{\input{self-reported-smoking-status.tex}}
 
 \begin{document}
 
@@ -197,30 +200,26 @@ We will list the artifacts here in the context of how to use them along with fig
 
 \subsection{Representing an app user/patient}
 \tabpatient
-
 The DiGA user (patient) will be represented using the \code{SelfReportedNicotineUsingPatient} resource (Table \ref{tab:SelfReportedNicotineUsingPatient}). This resource should be used when the DiGA user is not supervised by a medical professional during the DiGA treatment, which means the
 patient is \textit{self reporting}.
 
 Since there will be different information available on the patient for different DiGAs, this is a flexible profile allowing all defaults on \code{Patient}. 
 There are however two optional extensions to quickly give information on this person's common triggers for nicotine usage and interventions that have been effective for this person.
 
-
-The extension field \code{commonNicotineTrigger} allows for exporting information about which common triggers there are for a patient's nicotine usage. 
-Values for this extension \textbf{should} be from the value set \code{TriggerCode} (fig TODO). If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
+\tabtriggerext
+The extension field \code{commonNicotineTrigger} (Table \ref{tab:NicotineTrigger}) allows for exporting information about which common triggers there are for a patient's nicotine usage. 
+Values for this extension \textbf{should} be from the value set \code{TriggerCode}. If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
 and implementers \textbf{may} raise an issue on GitHub \cite{github} to include their code in the value set in future versions of the Standard.
 
-
-% TODO figure extension
 
 % TODO figure valueset
 
 % TODO figure codesystem?
 
-The extension field \code{effectiveNicotineIntervention} allows for exporting information about which interventions have been effective for this patient to prevent their use of nicotine.
+\tabinterventionext
+The extension field \code{effectiveNicotineIntervention} (Table \ref{tab:EffectiveNicotineIntervention}) allows for exporting information about which interventions have been effective for this patient to prevent their use of nicotine.
 Values for this extension \textbf{should} be from the value set \code{EffectiveInterventionCode} (fig). If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
 and implementers \textbf{may} raise an issue on GitHub \cite{github} to include their code in the value set in future versions of the Standard.
-
-% TODO figure extension
 
 % TODO figure valueset
 
@@ -234,11 +233,10 @@ It allows the DiGA to make it clear what is being treated while at the same time
 To achieve this, the profile disallows clinical attributes like evidence, clinicalStatus etc. It adds an extension called \code{currentSelfReportedSmokingStatus} to allow for a readily accessible way to find out what the current status of the condition is reported to be. 
 The condition coding points to the german base profile's \cite{debasis} ICD-10-GM code \cite{icd} for nicotine addiction, F17.2.
 
-% TODO figure extension
-
 % TODO figure valueset & codesystem
 
-The extension field \code{currentSelfReportedSmokingStatus} allows for quickly viewing the status on the condition. It should include the latest report on the condition status made by the patient.
+\tabstatusext
+The extension field \code{currentSelfReportedSmokingStatus} (Table \ref{tab:SelfReportedSmokingStatus}) allows for quickly viewing the status on the condition. It should include the latest report on the condition status made by the patient.
 Values for this extension's \code{status} attribute \textbf{should} be from the value set \code{SelfReportedSmokingStatusCode} (fig). If an appropriate code is not available, implementers \textbf{should} use the string value of \code{CodeableConcept}, 
 and implementers \textbf{may} raise an issue on GitHub \cite{github} to include their code in the value set in future versions of the Standard.
 
