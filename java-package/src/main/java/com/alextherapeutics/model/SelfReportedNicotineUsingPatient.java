@@ -23,7 +23,6 @@ public class SelfReportedNicotineUsingPatient extends Patient {
     @Child(name="effectiveNicotineIntervention", max=Child.MAX_UNLIMITED)
     @Extension(definedLocally = true, url = DefinitionUri.EFFECTIVE_INTERVENTION, isModifier = false)
     @Description(shortDefinition = "\"Intervention(s) that have been effective when patient has wanted to use nicotine")
-    @Binding(valueSet = "myvalueset")
     private List<StringType> effectiveNicotineIntervention = new ArrayList<>();
 
     @Override
