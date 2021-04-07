@@ -2,15 +2,10 @@ package com.alextherapeutics.annotation;
 
 import ca.uhn.fhir.context.FhirContext;
 import com.google.auto.service.AutoService;
-import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.TypeSpec;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
 import javax.annotation.processing.*;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
 import java.io.IOException;
@@ -48,29 +43,9 @@ public class CodeSystemProcessor extends AbstractProcessor {
             var file = CodeSystemProcessor.class.getClassLoader().getResourceAsStream(path.toString());
             var ctxt = FhirContext.forR4();
             var resource = (org.hl7.fhir.r4.model.CodeSystem) ctxt.newJsonParser().parseResource(file);
-            messager.printMessage(Diagnostic.Kind.NOTE, "HELLO MAX");
-
-            var codeEnumBuilder = TypeSpec.enumBuilder(element.getSimpleName() + "Code")
-                    .addAnnotation(Getter.class)
-                    .addAnnotation(AllArgsConstructor.class)
-                    .addModifiers(Modifier.PUBLIC)
-                    .addField(String.class, "code", Modifier.PRIVATE)
-                    .addField(String.class, "display", Modifier.PRIVATE);
-            for (var concept : resource.getConcept()) {
-                codeEnumBuilder.addEnumConstant(
-                        concept.getCode(),
-                        TypeSpec.anonymousClassBuilder(
-                                "$S, $S",
-                                concept.getDisplay(),
-                                concept.getDefinition()
-                        ).build()
-                );
-            }
-
-            var javaFile = JavaFile.builder(packageName, codeEnumBuilder.build())
-                    .build();
+            var javaFile = new GeneratedCodeSystem(element, resource);
             try {
-                javaFile.writeTo(filer);
+                javaFile.toFile().writeTo(filer);
             } catch (IOException e) {
                 error(element, e.getMessage());
             }
