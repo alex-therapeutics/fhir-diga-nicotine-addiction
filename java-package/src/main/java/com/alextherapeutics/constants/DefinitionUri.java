@@ -6,6 +6,7 @@ package com.alextherapeutics.constants;
 public class DefinitionUri {
     private static final String structure = "/StructureDefinition/";
     private static final String codeSystem = "/CodeSystem/";
+    private static final String valueSet = "/ValueSet/";
 
     public static final String SELF_REPORTED_NICOTINE_USING_PATIENT = Canonical.root + structure + "self-reported-nicotine-using-patient";
     public static final String NICOTINE_TRIGGER = Canonical.root + structure + "nicotine-trigger";
