@@ -24,11 +24,11 @@ The description of the plan contains a summary explanation of what the DiGA does
 """
 InstanceOf: NicotineUsageTreatmentPlan
 * extension[SelfReportedSmokingStatus][0].extension[reportedOn].valueDate = "2021-01-01"
-* extension[SelfReportedSmokingStatus][0].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#actively-smoking
+* extension[SelfReportedSmokingStatus][0].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#actively_smoking
 * extension[SelfReportedSmokingStatus][1].extension[reportedOn].valueDate = "2021-02-01"
-* extension[SelfReportedSmokingStatus][1].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#cutting-down
+* extension[SelfReportedSmokingStatus][1].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#cutting_down
 * extension[SelfReportedSmokingStatus][2].extension[reportedOn].valueDate = "2021-03-01"
-* extension[SelfReportedSmokingStatus][2].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#quit-smoking
+* extension[SelfReportedSmokingStatus][2].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#quit_smoking
 * created = "2021-01-01"
 * addresses[selfReportedNicotineUsage] = Reference(SelfReportedNicotineUsageExample)
 * status = #active

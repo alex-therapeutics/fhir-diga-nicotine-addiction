@@ -30,7 +30,7 @@
       "definition": "After sex"
     },
     {
-      "code": "break",
+      "code": "on_break",
       "display": "Break",
       "definition": "Taking a break, for example at work"
     },
@@ -45,7 +45,7 @@
       "definition": "Felling down"
     },
     {
-      "code": "talking-on-phone",
+      "code": "talking_on_phone",
       "display": "Talking on the phone",
       "definition": "Talking on the phone"
     },
@@ -70,7 +70,7 @@
       "definition": "Nicotine withdrawal"
     },
     {
-      "code": "waking-up",
+      "code": "waking_up",
       "display": "Waking up",
       "definition": "Just after waking up"
     },

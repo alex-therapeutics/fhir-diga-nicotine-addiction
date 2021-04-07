@@ -40,10 +40,10 @@ This questionnaire finds out information about common triggers for the patient, 
 * item[2].type = #choice
 * item[2].text = "Are you experiencing any physical symptoms?"
 * item[2].answerValueSet = Canonical(TriggerCode)
-* item[3].linkId = "INTERVENTION"
-* item[3].type = #choice
+* item[3].linkId = "INTERVENTION" // TODO change to string
+* item[3].type = #string
 * item[3].text = "Would you like to try an intervention?"
-* item[3].answerValueSet = Canonical(EffectiveInterventionCode)
+// * item[3].answerValueSet = Canonical(EffectiveInterventionCode)
 * item[4].linkId = "DECISION"
 * item[4].type = #choice
 * item[4].text = "Did you smoke?"

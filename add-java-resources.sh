@@ -5,12 +5,12 @@
 # to be used to create these resources in java
 ##########
 
-RES_PATH=java-package/src/main/resources/fhir
+RES_PATH=java-package/fhir/src/main/resources/fhir
 FHIR_PATH=fhir-profile/fsh-generated/resources
 cd fhir-profile \
     && sushi . \
     && cd - \
     && mkdir -p $RES_PATH \
-    && cp $FHIR_PATH/StructureDefinition-*.json $RES_PATH \
-    && cp $FHIR_PATH/CodeSystem-*.json $RES_PATH \
-    && cp $FHIR_PATH/ValueSet-*.json $RES_PATH
+    && \cp $FHIR_PATH/StructureDefinition-*.json $RES_PATH \
+    && \cp $FHIR_PATH/CodeSystem-*.json $RES_PATH \
+    && \cp $FHIR_PATH/ValueSet-*.json $RES_PATH

@@ -10,17 +10,17 @@
   "url": "http://www.alextherapeutics.com/fhir/CodeSystem/self-reported-status-code-system",
   "concept": [
     {
-      "code": "actively-smoking",
+      "code": "actively_smoking",
       "display": "Actively Smoking",
       "definition": "Currently actively smoking and hasn't attempted to cut down or quit yet, or has relapsed and started to smoke again."
     },
     {
-      "code": "cutting-down",
+      "code": "cutting_down",
       "display": "Cutting Down",
       "definition": "Started a process of progressively cutting down on the amount of cigarettes smoked"
     },
     {
-      "code": "quit-smoking",
+      "code": "quit_smoking",
       "display": "Quit Smoking",
       "definition": "Has quit smoking."
     }

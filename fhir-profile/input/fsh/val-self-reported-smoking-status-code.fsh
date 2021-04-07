@@ -8,6 +8,6 @@ CodeSystem: SelfReportedStatusCodeSystem
 Id: self-reported-status-code-system
 Title: "Self Reported Smoking Status Code System"
 Description: "Available values for self-reporting smoking status"
-* #actively-smoking "Actively Smoking" "Currently actively smoking and hasn't attempted to cut down or quit yet, or has relapsed and started to smoke again."
-* #cutting-down "Cutting Down" "Started a process of progressively cutting down on the amount of cigarettes smoked"
-* #quit-smoking "Quit Smoking" "Has quit smoking."
+* #actively_smoking "Actively Smoking" "Currently actively smoking and hasn't attempted to cut down or quit yet, or has relapsed and started to smoke again."
+* #cutting_down "Cutting Down" "Started a process of progressively cutting down on the amount of cigarettes smoked"
+* #quit_smoking "Quit Smoking" "Has quit smoking."

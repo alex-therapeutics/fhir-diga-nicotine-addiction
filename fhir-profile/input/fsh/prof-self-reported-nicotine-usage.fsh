@@ -28,7 +28,7 @@ Description: "A condition of nicotine usage (F17.2 ICD-10). The condition and it
 Instance: SelfReportedNicotineUsageExample
 Description: "An example of a self reported nicotine usage condition. The current (last reported, on 2021-03-21) status is that the patient is actively smoking"
 InstanceOf: SelfReportedNicotineUsage
-* extension[SelfReportedSmokingStatus].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#actively-smoking
+* extension[SelfReportedSmokingStatus].extension[status].valueCodeableConcept = SelfReportedStatusCodeSystem#actively_smoking
 * extension[SelfReportedSmokingStatus].extension[reportedOn].valueDate = "2021-03-21"
 * code.coding[icd10].code = http://fhir.de/CodeSystem/dimdi/icd-10-gm#F17.2 
 * code.coding[icd10].version = "2021"
