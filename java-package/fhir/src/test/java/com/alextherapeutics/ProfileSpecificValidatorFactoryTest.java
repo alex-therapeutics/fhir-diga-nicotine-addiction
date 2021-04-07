@@ -3,7 +3,7 @@ package com.alextherapeutics;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.validation.FhirValidator;
 import com.alextherapeutics.model.NicotineTriggerCode;
-import com.alextherapeutics.model.SelfReportedNicotineUsingPatient;
+import com.alextherapeutics.model.DeprSelfReportedNicotineUsingPatient;
 import com.alextherapeutics.model.DeprTriggerCodeSystemCode;
 import org.hl7.fhir.r4.model.StringType;
 import org.junit.jupiter.api.Assertions;
@@ -21,7 +21,7 @@ class ProfileSpecificValidatorFactoryTest {
     @Test
     void validatorValidatesExamplePatient() {
         var ctxt = FhirContext.forR4();
-        var patient = new SelfReportedNicotineUsingPatient();
+        var patient = new DeprSelfReportedNicotineUsingPatient();
         patient.setActive(true);
         patient.getCommonNicotineTrigger().add(NicotineTriggerCode.fromCode(DeprTriggerCodeSystemCode.WAITING));
         patient.getEffectiveNicotineIntervention().add(

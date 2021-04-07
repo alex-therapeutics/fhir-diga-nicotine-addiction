@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
-public @interface CodeSystem {
-    String value();
+public @interface GeneratedFromFhir {
+    String id();
+    FhirType type();
 }
