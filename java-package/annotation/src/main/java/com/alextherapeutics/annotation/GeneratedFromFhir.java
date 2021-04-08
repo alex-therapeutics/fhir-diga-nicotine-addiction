@@ -11,4 +11,5 @@ public @interface GeneratedFromFhir {
     String id();
     FhirType type() default FhirType.PROFILE;
     ExtensionFromFhir[] extensions() default {};
+    CompositeExtensionFromFhir[] compositeExtensions() default {};
 }

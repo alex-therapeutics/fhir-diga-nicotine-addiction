@@ -3,6 +3,7 @@ package com.alextherapeutics.annotation;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.hl7.fhir.r4.model.CodeSystem;
 
 import javax.lang.model.element.Element;
@@ -15,7 +16,9 @@ class GeneratedCodeSystem extends FhirJavaFileGenerator {
 
     @Override
     JavaFile toFile() {
-        var codeEnumBuilder = addCommon(TypeSpec.enumBuilder(element.getSimpleName() + "Code"))
+        var codeEnumBuilder = addCommon(TypeSpec.enumBuilder(element.getSimpleName() + "System"))
+                .addAnnotation(AllArgsConstructor.class)
+                .addAnnotation(Getter.class)
                 .addField(String.class, "code", Modifier.PRIVATE)
                 .addField(String.class, "display", Modifier.PRIVATE);
         for (var concept : resource.getConcept()) {

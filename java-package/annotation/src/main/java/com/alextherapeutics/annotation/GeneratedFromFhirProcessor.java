@@ -43,6 +43,7 @@ public class GeneratedFromFhirProcessor extends AbstractProcessor {
             var fhirType = element.getAnnotation(GeneratedFromFhir.class).type();
             var fhirId = element.getAnnotation(GeneratedFromFhir.class).id();
             var extensions = element.getAnnotation(GeneratedFromFhir.class).extensions();
+            var compositeExtensions = element.getAnnotation(GeneratedFromFhir.class).compositeExtensions();
             Path path;
             if (fhirType == FhirType.CODE_SYSTEM) {
                 path = Paths.get("fhir", "CodeSystem-" + fhirId + ".json");
@@ -56,7 +57,15 @@ public class GeneratedFromFhirProcessor extends AbstractProcessor {
             if (fhirType == FhirType.CODE_SYSTEM) {
                 fileGenerator = new GeneratedCodeSystem(element, (org.hl7.fhir.r4.model.CodeSystem) resource);
             } else {
-                fileGenerator = new GeneratedProfile(element, (StructureDefinition) resource, extensions, messager, processingEnv);
+                fileGenerator = GeneratedProfile.builder()
+                        .element(element)
+                        .resource((StructureDefinition) resource)
+                        .extensions(extensions)
+                        .compositeExtensions(compositeExtensions)
+                        .messager(messager)
+                        .processingEnvironment(processingEnv)
+                        .fhirContext(ctxt)
+                        .build();
             }
             try {
                 fileGenerator.toFile().writeTo(filer);
