@@ -9,5 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface GeneratedFromFhir {
     String id();
-    FhirType type();
+    FhirType type() default FhirType.PROFILE;
+    ExtensionFromFhir[] extensions() default {};
 }
