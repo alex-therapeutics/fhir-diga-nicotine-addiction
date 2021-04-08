@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import org.hl7.fhir.r4.model.ElementDefinition;
-import org.hl7.fhir.r4.model.Patient;
 import org.hl7.fhir.r4.model.StructureDefinition;
 
 import javax.annotation.processing.Messager;
@@ -21,6 +20,7 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.MirroredTypeException;
 import javax.tools.Diagnostic;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -33,7 +33,25 @@ public class GeneratedProfile extends FhirJavaFileGenerator {
     private ProcessingEnvironment processingEnvironment;
     @Override
     JavaFile toFile() {
-        var extensionFields = Arrays.stream(extensions)
+        var superClass = ClassName.get("org.hl7.fhir.r4.model", resource.getType());
+        var profilePojoBuilder = addCommon(TypeSpec.classBuilder(element.getSimpleName() + "Profile"))
+                .addAnnotation(
+                        AnnotationSpec.builder(ResourceDef.class)
+                                .addMember("name", "$S", resource.getType())
+                                .addMember("profile", "$S", resource.getUrl())
+                                .build()
+                )
+                .addAnnotation(Setter.class)
+                .superclass(superClass);
+        if (hasExtensions()) {
+            profilePojoBuilder
+                    .addFields(buildExtensionFields())
+                    .addMethod(buildEmptyMethodForExtensions());
+        }
+        return JavaFile.builder(packageName, profilePojoBuilder.build()).build();
+    }
+    private List<FieldSpec> buildExtensionFields() {
+        return Arrays.stream(extensions)
                 .map(
                         extensionFromFhir -> {
                             var structureElement = resource
@@ -51,33 +69,6 @@ public class GeneratedProfile extends FhirJavaFileGenerator {
                             return buildExtensionField(extensionFromFhir, structureElement.get());
                         }
                 ).collect(Collectors.toList());
-
-        var params = Arrays.stream(extensions)
-                .map(ExtensionFromFhir::name)
-                .map(CodeBlock::of)
-                .collect(Collectors.toList());
-        var paramsBlock = CodeBlock.join(params, ", ");
-
-        var isEmptyMethod = MethodSpec.methodBuilder("isEmpty")
-                .addAnnotation(Override.class)
-                .addModifiers(Modifier.PUBLIC)
-                .returns(boolean.class)
-                .addStatement("return super.isEmpty() && $T.isEmpty($L)", ElementUtil.class, paramsBlock)
-                .build();
-
-        var profilePojoBuilder = addCommon(TypeSpec.classBuilder(element.getSimpleName() + "Profile"))
-                .addAnnotation(
-                        AnnotationSpec.builder(ResourceDef.class)
-                                .addMember("name", "$S", resource.getType())
-                                .addMember("profile", "$S", resource.getUrl())
-                                .build()
-                )
-                .addAnnotation(Setter.class)
-                .superclass(Patient.class)
-                .addFields(extensionFields)
-                .addMethod(isEmptyMethod);
-
-        return JavaFile.builder(packageName, profilePojoBuilder.build()).build();
     }
     private FieldSpec buildExtensionField(ExtensionFromFhir extension, ElementDefinition definition) {
         if (definition == null) {
@@ -133,5 +124,22 @@ public class GeneratedProfile extends FhirJavaFileGenerator {
             return Class.forName(type.getQualifiedName().toString());
         }
         return null;
+    }
+    private MethodSpec buildEmptyMethodForExtensions() {
+        var params = Arrays.stream(extensions)
+                .map(ExtensionFromFhir::name)
+                .map(CodeBlock::of)
+                .collect(Collectors.toList());
+        var paramsBlock = CodeBlock.join(params, ", ");
+
+        return MethodSpec.methodBuilder("isEmpty")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .returns(boolean.class)
+                .addStatement("return super.isEmpty() && $T.isEmpty($L)", ElementUtil.class, paramsBlock)
+                .build();
+    }
+    private boolean hasExtensions() {
+        return extensions.length > 0;
     }
 }
