@@ -4,6 +4,7 @@ import ca.uhn.fhir.model.api.annotation.Child;
 import ca.uhn.fhir.model.api.annotation.Description;
 import ca.uhn.fhir.model.api.annotation.Extension;
 import ca.uhn.fhir.model.api.annotation.ResourceDef;
+import ca.uhn.fhir.util.ElementUtil;
 import com.squareup.javapoet.*;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -51,6 +52,19 @@ public class GeneratedProfile extends FhirJavaFileGenerator {
                         }
                 ).collect(Collectors.toList());
 
+        var params = Arrays.stream(extensions)
+                .map(ExtensionFromFhir::name)
+                .map(CodeBlock::of)
+                .collect(Collectors.toList());
+        var paramsBlock = CodeBlock.join(params, ", ");
+
+        var isEmptyMethod = MethodSpec.methodBuilder("isEmpty")
+                .addAnnotation(Override.class)
+                .addModifiers(Modifier.PUBLIC)
+                .returns(boolean.class)
+                .addStatement("return super.isEmpty() && $T.isEmpty($L)", ElementUtil.class, paramsBlock)
+                .build();
+
         var profilePojoBuilder = addCommon(TypeSpec.classBuilder(element.getSimpleName() + "Profile"))
                 .addAnnotation(
                         AnnotationSpec.builder(ResourceDef.class)
@@ -60,7 +74,8 @@ public class GeneratedProfile extends FhirJavaFileGenerator {
                 )
                 .addAnnotation(Setter.class)
                 .superclass(Patient.class)
-                .addFields(extensionFields);
+                .addFields(extensionFields)
+                .addMethod(isEmptyMethod);
 
         return JavaFile.builder(packageName, profilePojoBuilder.build()).build();
     }
@@ -100,8 +115,6 @@ public class GeneratedProfile extends FhirJavaFileGenerator {
                                 .addMember("max", "$L", max)
                                 .build()
                 );
-//                .initializer(max == 1 ? "new $T()", CodeableConcept.class)
-//                .build();
         if (max == 1) {
             field = field.initializer("new $T()", finalType);
         } else {
