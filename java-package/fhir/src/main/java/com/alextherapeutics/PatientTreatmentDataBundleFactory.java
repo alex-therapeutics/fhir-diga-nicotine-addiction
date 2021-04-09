@@ -11,10 +11,22 @@ import org.hl7.fhir.r4.model.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Creates bundles of patient treatment data using entered patient data
+ */
 @AllArgsConstructor
 public class PatientTreatmentDataBundleFactory {
     private FhirContext context;
 
+    /**
+     * Create a Bundle FHIR resources containing a document of patient treatment data for a single patient.
+     * This method enforces a structure based on the data object to create the bundle. If you wish to have more control
+     * over how the bundle and the underlying reosurces are created, you can use this method as inspiration and create
+     * your own by using the profile package's resource model f.e {@link SelfReportedNicotineUsingPatient},
+     * {@link NicotineUsageTreatmentPlan} etc.
+     * @param data - DiGA treatment data on the patient
+     * @return A FHIR {@link Bundle} containing DiGA treatment data for a single patient.
+     */
     public IBaseBundle createBundle(PatientTreatmentData data) {
         var builder = new BundleBuilder(context);
         builder.setBundleField("type", Bundle.BundleType.DOCUMENT.toCode());

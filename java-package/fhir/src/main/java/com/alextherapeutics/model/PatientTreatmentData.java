@@ -17,9 +17,14 @@ import java.util.List;
 @Builder
 @Getter
 public class PatientTreatmentData {
-    // diga data
+    /**
+     * The name of the DiGA exporting this data.
+     */
     @NonNull
     private String digaName;
+    /**
+     * The name of the organization exporting this data (optional).
+     */
     private String organizationName;
     /**
      * A root url to start FHIR uris with. F.e http://www.my-org.com/fhir
@@ -31,16 +36,33 @@ public class PatientTreatmentData {
      */
     @NonNull
     private String digaPlanDescription;
-
+    /**
+     * Name of the patient. Will be exported as a 'nickname'
+     */
     @NonNull
     private String patientName;
+    /**
+     * The patient's email
+     */
+    @NonNull
     private String patientEmail;
+    /**
+     * Gender of the patient
+     */
     private Enumerations.AdministrativeGender patientGender;
+    /**
+     * Common nicotine triggers for the patient, as determined by the DiGA
+     */
     @Builder.Default
     private List<TriggerCode> commonNicotineTriggers = new ArrayList<>();
+    /**
+     * Effective nicotine interventions for the patient, as determined by the DiGA
+     */
     @Builder.Default
     private List<String> effectiveNicotineInterventions = new ArrayList<>();
-
+    /**
+     * A list of all smoking status updates made by the patient.
+     */
     @Builder.Default
     private List<SelfReportedSmokingStatus> smokingStatusList = new ArrayList<>();
 
@@ -56,15 +78,27 @@ public class PatientTreatmentData {
     @Builder.Default
     private List<NicotineTreatmentQuestionnaireResponse> questionnaireResponses = new ArrayList<>();
 
+    /**
+     * A smoking status update made by the patient.
+     */
     @Builder
     @Getter
     public static class SelfReportedSmokingStatus {
+        /**
+         * Date the report was made
+         */
         @NonNull
         private Date reportedOn;
+        /**
+         * The status that was reported
+         */
         @NonNull
         private SelfReportedSmokingStatusCode status;
     }
 
+    /**
+     * A questionnaire response together with the questionnaire that was responded to.
+     */
     @Builder
     @Getter
     public static class NicotineTreatmentQuestionnaireResponse {
