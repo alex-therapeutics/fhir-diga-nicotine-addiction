@@ -36,8 +36,8 @@ public class GeneratedFromFhirProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         var elements = roundEnv.getElementsAnnotatedWith(GeneratedFromFhir.class);
         for (var element: elements) {
-            if (element.getKind() != ElementKind.INTERFACE) {
-                error(element, "The @%s annotation only works for interfaces");
+            if (element.getKind() != ElementKind.FIELD) {
+                error(element, "The @%s annotation only works for fields");
                 return true;
             }
             var fhirType = element.getAnnotation(GeneratedFromFhir.class).type();

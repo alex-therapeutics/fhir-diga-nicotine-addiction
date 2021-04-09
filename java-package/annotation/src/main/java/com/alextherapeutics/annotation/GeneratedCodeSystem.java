@@ -16,7 +16,7 @@ class GeneratedCodeSystem extends FhirJavaFileGenerator {
 
     @Override
     JavaFile toFile() {
-        var codeEnumBuilder = addCommon(TypeSpec.enumBuilder(element.getSimpleName() + "System"))
+        var codeEnumBuilder = addCommon(TypeSpec.enumBuilder(element.getSimpleName().toString()))
                 .addAnnotation(AllArgsConstructor.class)
                 .addAnnotation(Getter.class)
                 .addField(String.class, "code", Modifier.PRIVATE)

@@ -36,7 +36,7 @@ public class GeneratedProfile extends FhirJavaFileGenerator {
     @Override
     JavaFile toFile() {
         var superClass = ClassName.get("org.hl7.fhir.r4.model", resource.getType());
-        var profilePojoBuilder = addCommon(TypeSpec.classBuilder(element.getSimpleName() + "Profile"))
+        var profilePojoBuilder = addCommon(TypeSpec.classBuilder(element.getSimpleName().toString()))
                 .addAnnotation(
                         AnnotationSpec.builder(ResourceDef.class)
                                 .addMember("name", "$S", resource.getType())
@@ -61,7 +61,7 @@ public class GeneratedProfile extends FhirJavaFileGenerator {
             var extensionDefinition = (StructureDefinition) fhirContext.newJsonParser().parseResource(GeneratedProfile.class.getClassLoader().getResourceAsStream(filePath));
             var compositeName = Arrays.stream(comppositeExtension.id().split("-")).map(StringUtils::capitalize).collect(Collectors.joining(""));
             var innerClassName = compositeName + "Extension";
-            var innerClass = ClassName.get("com.alextherapeutics.model", element.getSimpleName() + "Profile", innerClassName);
+            var innerClass = ClassName.get("com.alextherapeutics.model", element.getSimpleName().toString(), innerClassName);
 
             var extensionFields = buildExtensionFields(comppositeExtension.extensions(), extensionDefinition);
             var innerClassType = TypeSpec.classBuilder(innerClassName)

@@ -2,13 +2,16 @@ package com.alextherapeutics;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.validation.FhirValidator;
-import com.alextherapeutics.model.NicotineTriggerCode;
-import com.alextherapeutics.model.DeprSelfReportedNicotineUsingPatient;
-import com.alextherapeutics.model.DeprTriggerCodeSystemCode;
+import com.alextherapeutics.model.SelfReportedNicotineUsingPatient;
+import com.alextherapeutics.model.TriggerCodeSystem;
+import org.hl7.fhir.r4.model.CodeableConcept;
+import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.StringType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 class ProfileSpecificValidatorFactoryTest {
     private static FhirValidator validator;
@@ -21,9 +24,10 @@ class ProfileSpecificValidatorFactoryTest {
     @Test
     void validatorValidatesExamplePatient() {
         var ctxt = FhirContext.forR4();
-        var patient = new DeprSelfReportedNicotineUsingPatient();
+        var patient = new SelfReportedNicotineUsingPatient();
         patient.setActive(true);
-        patient.getCommonNicotineTrigger().add(NicotineTriggerCode.fromCode(DeprTriggerCodeSystemCode.WAITING));
+        var codeable = new CodeableConcept();
+        codeable.setCoding(Arrays.asList(new Coding().setCode(TriggerCodeSystem.coffee.getCode())));
         patient.getEffectiveNicotineIntervention().add(
                 new StringType("drink-water")
         );
@@ -40,5 +44,4 @@ class ProfileSpecificValidatorFactoryTest {
                 validator.validateWithResult(patient).isSuccessful()
         );
     }
-
 }
