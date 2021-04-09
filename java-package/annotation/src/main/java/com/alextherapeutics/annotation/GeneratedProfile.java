@@ -24,6 +24,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * A class being generated to define a profile on a FHIR resource.
+ */
 @Builder
 public class GeneratedProfile extends FhirJavaFileGenerator {
     private Element element;

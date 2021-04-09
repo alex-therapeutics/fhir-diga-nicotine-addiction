@@ -16,7 +16,7 @@ import org.hl7.fhir.r4.model.StringType;
  *
  * The processor that does this is located in {@link com.alextherapeutics.annotation.GeneratedFromFhirProcessor}
  *
- * This class should not be intantiated or used in any other way than to define the resources for processing.
+ * This class should not be instantiated or used in any other way than to define the resources for processing.
  */
 class GeneratedResources {
 

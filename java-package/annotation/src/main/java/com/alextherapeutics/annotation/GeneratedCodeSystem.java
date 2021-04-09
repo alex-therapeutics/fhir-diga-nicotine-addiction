@@ -9,6 +9,9 @@ import org.hl7.fhir.r4.model.CodeSystem;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 
+/**
+ * A class being generated to define a {@link CodeSystem}
+ */
 @AllArgsConstructor
 class GeneratedCodeSystem extends FhirJavaFileGenerator {
     private Element element;

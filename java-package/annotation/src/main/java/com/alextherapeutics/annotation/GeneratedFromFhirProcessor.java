@@ -15,9 +15,12 @@ import java.nio.file.Paths;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * Annotation processor for the {@link GeneratedFromFhir} annotation.
+ * This processor will generate java source files based on fields tagged with {@link GeneratedFromFhir}.
+ */
 @AutoService(Processor.class)
 public class GeneratedFromFhirProcessor extends AbstractProcessor {
-    private static final String packageName = "com.alextherapeutics.model";
     private Messager messager;
     private Filer filer;
     @Override
@@ -75,7 +78,6 @@ public class GeneratedFromFhirProcessor extends AbstractProcessor {
         }
         return true;
     }
-
 
     private void error(Element e, String msg, Object ...args) {
         messager.printMessage(

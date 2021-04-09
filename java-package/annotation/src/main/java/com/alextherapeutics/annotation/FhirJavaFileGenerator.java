@@ -8,9 +8,16 @@ import javax.annotation.processing.Generated;
 import javax.lang.model.element.Modifier;
 import java.util.Date;
 
+/**
+ * A class that generates java files extending a FHIR resource
+ */
 abstract class FhirJavaFileGenerator {
     protected static final String packageName = "com.alextherapeutics.model";
 
+    /**
+     * Generate a java source file.
+     * @return
+     */
     abstract JavaFile toFile();
 
     protected TypeSpec.Builder addCommon(TypeSpec.Builder builder) {
