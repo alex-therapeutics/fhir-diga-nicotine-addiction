@@ -22,6 +22,11 @@ public class PatientTreatmentData {
     private String digaName;
     private String organizationName;
     /**
+     * A root url to start FHIR uris with. F.e http://www.my-org.com/fhir
+     */
+    @NonNull
+    private String fhirUrl;
+    /**
      * A description of what the DiGA's treatment plan does.
      */
     @NonNull

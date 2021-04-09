@@ -4,7 +4,7 @@ import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.util.BundleBuilder;
 import com.alextherapeutics.model.*;
 import lombok.AllArgsConstructor;
-import org.hl7.fhir.instance.model.api.IBase;
+import org.hl7.fhir.instance.model.api.IAnyResource;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
 import org.hl7.fhir.r4.model.*;
 
@@ -33,10 +33,15 @@ public class PatientTreatmentDataBundleFactory {
         addEntry(builder, fhirTreatmentData.getPlan());
         fhirTreatmentData.getQuestionnaires().forEach(questionnaire -> addEntry(builder, questionnaire));
         fhirTreatmentData.getQuestionnairesResponses().forEach(response -> addEntry(builder, response));
+        var bundle = (Bundle) builder.getBundle();
+        bundle.setIdentifier(new Identifier()
+                .setValue(UUID.randomUUID().toString())
+                .setSystem(data.getFhirUrl() + "/exportId"));
         return builder.getBundle();
     }
-    private void addEntry(BundleBuilder builder, IBase resource) {
-        var entry = builder.addEntry();
+    private void addEntry(BundleBuilder builder, IAnyResource resource) {
+        var entry = (Bundle.BundleEntryComponent) builder.addEntry();
+        entry.setFullUrl("urn:uuid:" + resource.getId().replace(" ", "-"));
 
         builder.addToEntry(
                 entry,
@@ -46,8 +51,11 @@ public class PatientTreatmentDataBundleFactory {
     }
     private PatientTreatmentDataFhir createFhirTreatmentData(PatientTreatmentData data) {
         var patient = createPatient(data);
+        patient.setId(UUID.randomUUID().toString());
         var condition = createCondition(data, patient);
+        condition.setId(UUID.randomUUID().toString());
         var plan = createCarePlan(data, patient, condition);
+        plan.setId(UUID.randomUUID().toString());
         return PatientTreatmentDataFhir.builder()
                 .organization(
                         (Organization) new Organization()
@@ -60,17 +68,22 @@ public class PatientTreatmentDataBundleFactory {
                 .questionnaires(
                         data.getQuestionnaireResponses()
                                 .stream()
-                                .map(PatientTreatmentData.NicotineTreatmentQuestionnaireResponse::getQuestionnaire)
+                                .map(responses -> {
+                                    var questionnaire = responses.getQuestionnaire();
+                                    questionnaire.setId(UUID.randomUUID().toString());
+                                    return questionnaire;
+                                })
                                 .collect(Collectors.toList())
                 )
                 .questionnairesResponses(
                         data.getQuestionnaireResponses()
-                        .stream().map(response -> createResponse(response, patient)).collect(Collectors.toList())
+                                .stream().map(response -> createResponse(response, patient)).collect(Collectors.toList())
                 )
                 .build();
     }
     private NicotineTreatmentQuestionnaireResponse createResponse(PatientTreatmentData.NicotineTreatmentQuestionnaireResponse from, SelfReportedNicotineUsingPatient patient) {
         var response = new NicotineTreatmentQuestionnaireResponse();
+        response.setId(UUID.randomUUID().toString());
         response.setQuestionnaire(from.getQuestionnaire().getUrl());
         response.setSource(new Reference(patient));
         response.setStatus(QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED);
@@ -85,13 +98,13 @@ public class PatientTreatmentDataBundleFactory {
         plan.setDescription(data.getDigaPlanDescription());
         plan.setSelfReportedSmokingStatus(
                 data.getSmokingStatusList().stream()
-                .map(selfReportedSmokingStatus -> {
-                    var extension = new NicotineUsageTreatmentPlan.SelfReportedSmokingStatusExtension();
-                    extension.setReportedOn(new DateType(selfReportedSmokingStatus.getReportedOn()));
-                    extension.setStatus(new CodeableConcept(new Coding().setCode(selfReportedSmokingStatus.getStatus().toString())));
-                    return extension;
-                })
-                .collect(Collectors.toList())
+                        .map(selfReportedSmokingStatus -> {
+                            var extension = new NicotineUsageTreatmentPlan.SelfReportedSmokingStatusExtension();
+                            extension.setReportedOn(new DateType(selfReportedSmokingStatus.getReportedOn()));
+                            extension.setStatus(new CodeableConcept(new Coding().setCode(selfReportedSmokingStatus.getStatus().toString())));
+                            return extension;
+                        })
+                        .collect(Collectors.toList())
         );
         plan.setSubject(new Reference(patient));
         plan.setAddresses(Collections.singletonList(new Reference(condition)));
@@ -101,8 +114,8 @@ public class PatientTreatmentDataBundleFactory {
     private SelfReportedNicotineUsage createCondition(PatientTreatmentData data, SelfReportedNicotineUsingPatient patient) {
         var condition = new SelfReportedNicotineUsage();
         var lastReportedSmokingStatus = data.getSmokingStatusList().stream()
-                        .max(Comparator.comparing(PatientTreatmentData.SelfReportedSmokingStatus::getReportedOn))
-                        .orElse(null);
+                .max(Comparator.comparing(PatientTreatmentData.SelfReportedSmokingStatus::getReportedOn))
+                .orElse(null);
         if (lastReportedSmokingStatus != null) {
             var currentSelfReportedSmokingStatusExtension = new SelfReportedNicotineUsage.SelfReportedSmokingStatusExtension();
             currentSelfReportedSmokingStatusExtension.setReportedOn(new DateType(lastReportedSmokingStatus.getReportedOn()));
@@ -148,6 +161,7 @@ public class PatientTreatmentDataBundleFactory {
     }
     private ExportedNicotineUsageTreatmentData createComposition(PatientTreatmentDataFhir fhirData, PatientTreatmentData data) {
         var composition = new ExportedNicotineUsageTreatmentData();
+        composition.setId(UUID.randomUUID().toString());
         composition.setStatus(Composition.CompositionStatus.FINAL);
         composition.setType(new CodeableConcept().setTextElement(new StringType("DiGA Data Export")));
         composition.setSubject(new Reference(fhirData.getPatient()));

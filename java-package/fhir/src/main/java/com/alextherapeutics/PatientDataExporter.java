@@ -26,7 +26,7 @@ public class PatientDataExporter {
      */
     public String getXmlExport(PatientTreatmentData patientData) {
         var bundle = bundleFactory.createBundle(patientData);
-        return fhirContext.newXmlParser().encodeResourceToString(bundle);
+        return fhirContext.newXmlParser().setPrettyPrint(true).encodeResourceToString(bundle);
     }
 
     /**
