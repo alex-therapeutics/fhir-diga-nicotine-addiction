@@ -5,6 +5,7 @@ import com.google.auto.service.AutoService;
 import org.hl7.fhir.r4.model.StructureDefinition;
 
 import javax.annotation.processing.*;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
@@ -23,6 +24,12 @@ import java.util.Set;
 public class GeneratedFromFhirProcessor extends AbstractProcessor {
     private Messager messager;
     private Filer filer;
+
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latestSupported();
+    }
+
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
