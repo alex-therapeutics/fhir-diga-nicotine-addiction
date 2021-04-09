@@ -33,7 +33,6 @@ public class PatientTreatmentDataBundleFactory {
         addEntry(builder, fhirTreatmentData.getPlan());
         fhirTreatmentData.getQuestionnaires().forEach(questionnaire -> addEntry(builder, questionnaire));
         fhirTreatmentData.getQuestionnairesResponses().forEach(response -> addEntry(builder, response));
-
         return builder.getBundle();
     }
     private void addEntry(BundleBuilder builder, IBase resource) {

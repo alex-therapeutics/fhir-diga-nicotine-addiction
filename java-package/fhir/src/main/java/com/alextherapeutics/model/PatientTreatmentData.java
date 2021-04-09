@@ -1,8 +1,5 @@
-package com.alextherapeutics;
+package com.alextherapeutics.model;
 
-import com.alextherapeutics.model.NicotineTreatmentQuestionnaire;
-import com.alextherapeutics.model.SelfReportedSmokingStatusCode;
-import com.alextherapeutics.model.TriggerCode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;

@@ -2,6 +2,7 @@ package com.alextherapeutics;
 
 import ca.uhn.fhir.context.FhirContext;
 import com.alextherapeutics.model.NicotineTreatmentQuestionnaire;
+import com.alextherapeutics.model.PatientTreatmentData;
 import com.alextherapeutics.model.SelfReportedSmokingStatusCode;
 import com.alextherapeutics.model.TriggerCode;
 import org.hl7.fhir.r4.model.Coding;
