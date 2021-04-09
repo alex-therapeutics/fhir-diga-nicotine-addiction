@@ -56,9 +56,24 @@ public class PatientTreatmentDataBundleFactory {
     }
     private SelfReportedNicotineUsingPatient createPatient(PatientTreatmentData data) {
         var patient = new SelfReportedNicotineUsingPatient();
+        patient.setActive(true);
+        patient.setName(
+                Arrays.asList(
+                        new HumanName().setUse(HumanName.NameUse.NICKNAME).setGiven(Arrays.asList(new StringType(data.getPatientName())))
+                )
+        );
+        patient.setTelecom(
+                Arrays.asList(
+                        new ContactPoint().setSystem(ContactPoint.ContactPointSystem.EMAIL).setValue(data.getPatientEmail())
+                )
+        );
+        patient.setGender(data.getPatientGender());
         patient.setCommonNicotineTrigger(
                 data.getCommonNicotineTriggers().stream().map(trigger -> new CodeableConcept(new Coding().setCode(trigger.toString())))
                         .collect(Collectors.toList())
+        );
+        patient.setEffectiveNicotineIntervention(
+                data.getEffectiveNicotineInterventions().stream().map(StringType::new).collect(Collectors.toList())
         );
         return patient;
     }
