@@ -87,7 +87,7 @@ class GeneratedResources {
     private String SelfReportedNicotineUsingPatient;
 
     @GeneratedFromFhir(id = "trigger-code-system", type = FhirType.CODE_SYSTEM)
-    private String TriggerCodeSystem;
+    private String TriggerCode;
 
     @GeneratedFromFhir(id = "self-reported-status-code-system", type = FhirType.CODE_SYSTEM)
     private String SelfReportedSmokingStatusCode;

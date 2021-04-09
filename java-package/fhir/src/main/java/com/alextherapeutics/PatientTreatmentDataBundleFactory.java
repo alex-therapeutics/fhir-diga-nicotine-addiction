@@ -2,9 +2,7 @@ package com.alextherapeutics;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.util.BundleBuilder;
-import com.alextherapeutics.model.ExportedNicotineUsageTreatmentData;
-import com.alextherapeutics.model.PatientTreatmentDataFhir;
-import com.alextherapeutics.model.SelfReportedNicotineUsingPatient;
+import com.alextherapeutics.model.*;
 import lombok.AllArgsConstructor;
 import org.hl7.fhir.instance.model.api.IBase;
 import org.hl7.fhir.instance.model.api.IBaseBundle;
@@ -20,7 +18,6 @@ public class PatientTreatmentDataBundleFactory {
     public IBaseBundle createBundle(PatientTreatmentData data) {
         var builder = new BundleBuilder(context);
         builder.setBundleField("type", Bundle.BundleType.DOCUMENT.toCode());
-        builder.setBundleField("id", UUID.randomUUID().toString()); // random here b/c we do not track bundles sent
         builder.setBundleField("timestamp", new DateTimeType(new Date()).getValueAsString());
 
         var fhirTreatmentData = createFhirTreatmentData(data);
@@ -32,6 +29,10 @@ public class PatientTreatmentDataBundleFactory {
             addEntry(builder, fhirTreatmentData.getOrganization());
         }
         addEntry(builder, fhirTreatmentData.getPatient());
+        addEntry(builder, fhirTreatmentData.getCondition());
+        addEntry(builder, fhirTreatmentData.getPlan());
+        fhirTreatmentData.getQuestionnaires().forEach(questionnaire -> addEntry(builder, questionnaire));
+        fhirTreatmentData.getQuestionnairesResponses().forEach(response -> addEntry(builder, response));
 
         return builder.getBundle();
     }
@@ -45,15 +46,84 @@ public class PatientTreatmentDataBundleFactory {
         );
     }
     private PatientTreatmentDataFhir createFhirTreatmentData(PatientTreatmentData data) {
+        var patient = createPatient(data);
+        var condition = createCondition(data, patient);
+        var plan = createCarePlan(data, patient, condition);
         return PatientTreatmentDataFhir.builder()
                 .organization(
                         (Organization) new Organization()
                                 .setName(data.getOrganizationName())
                                 .setId(data.getOrganizationName())
                 )
-                .patient(createPatient(data))
+                .patient(patient)
+                .condition(condition)
+                .plan(plan)
+                .questionnaires(
+                        data.getQuestionnaireResponses()
+                                .stream()
+                                .map(PatientTreatmentData.NicotineTreatmentQuestionnaireResponse::getQuestionnaire)
+                                .collect(Collectors.toList())
+                )
+                .questionnairesResponses(
+                        data.getQuestionnaireResponses()
+                        .stream().map(response -> createResponse(response, patient)).collect(Collectors.toList())
+                )
                 .build();
     }
+    private NicotineTreatmentQuestionnaireResponse createResponse(PatientTreatmentData.NicotineTreatmentQuestionnaireResponse from, SelfReportedNicotineUsingPatient patient) {
+        var response = new NicotineTreatmentQuestionnaireResponse();
+        response.setQuestionnaire(from.getQuestionnaire().getUrl());
+        response.setSource(new Reference(patient));
+        response.setStatus(QuestionnaireResponse.QuestionnaireResponseStatus.COMPLETED);
+        response.setItem(from.getItems());
+        return response;
+    }
+    private NicotineUsageTreatmentPlan createCarePlan(PatientTreatmentData data, SelfReportedNicotineUsingPatient patient, SelfReportedNicotineUsage condition) {
+        var plan = new NicotineUsageTreatmentPlan();
+        plan.setCreated(data.getDigaTreatmentStartDate());
+        plan.setStatus(CarePlan.CarePlanStatus.ACTIVE);
+        plan.setIntent(CarePlan.CarePlanIntent.PLAN);
+        plan.setDescription(data.getDigaPlanDescription());
+        plan.setSelfReportedSmokingStatus(
+                data.getSmokingStatusList().stream()
+                .map(selfReportedSmokingStatus -> {
+                    var extension = new NicotineUsageTreatmentPlan.SelfReportedSmokingStatusExtension();
+                    extension.setReportedOn(new DateType(selfReportedSmokingStatus.getReportedOn()));
+                    extension.setStatus(new CodeableConcept(new Coding().setCode(selfReportedSmokingStatus.getStatus().toString())));
+                    return extension;
+                })
+                .collect(Collectors.toList())
+        );
+        plan.setSubject(new Reference(patient));
+        plan.setAddresses(Collections.singletonList(new Reference(condition)));
+        return plan;
+    }
+
+    private SelfReportedNicotineUsage createCondition(PatientTreatmentData data, SelfReportedNicotineUsingPatient patient) {
+        var condition = new SelfReportedNicotineUsage();
+        var lastReportedSmokingStatus = data.getSmokingStatusList().stream()
+                        .max(Comparator.comparing(PatientTreatmentData.SelfReportedSmokingStatus::getReportedOn))
+                        .orElse(null);
+        if (lastReportedSmokingStatus != null) {
+            var currentSelfReportedSmokingStatusExtension = new SelfReportedNicotineUsage.SelfReportedSmokingStatusExtension();
+            currentSelfReportedSmokingStatusExtension.setReportedOn(new DateType(lastReportedSmokingStatus.getReportedOn()));
+            currentSelfReportedSmokingStatusExtension.setStatus(
+                    new CodeableConcept().addCoding(new Coding().setCode(lastReportedSmokingStatus.getStatus().toString()))
+            );
+            condition.setCurrentSelfReportedSmokingStatus(currentSelfReportedSmokingStatusExtension);
+        }
+        condition.setCode(
+                new CodeableConcept().addCoding(
+                        new Coding()
+                                .setCode("F17.2")
+                                .setSystem("http://fhir.de/CodeSystem/dimdi/icd-10-gm")
+                                .setVersion("2021")
+                )
+        );
+        condition.setSubject(new Reference(patient));
+        return condition;
+    }
+
     private SelfReportedNicotineUsingPatient createPatient(PatientTreatmentData data) {
         var patient = new SelfReportedNicotineUsingPatient();
         patient.setActive(true);
@@ -123,10 +193,11 @@ public class PatientTreatmentDataBundleFactory {
                                 .addEntry(new Reference(response))
                 ).collect(Collectors.toList());
 
-        var sections = Arrays.asList(
+        List<Composition.SectionComponent> sections = new ArrayList<>();
+        sections.addAll(Arrays.asList(
                 patientData,
                 conditionData,
-                planData);
+                planData));
         sections.addAll(questionnaireData);
         sections.addAll(responseData);
         return sections;

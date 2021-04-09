@@ -3,7 +3,7 @@ package com.alextherapeutics;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.validation.FhirValidator;
 import com.alextherapeutics.model.SelfReportedNicotineUsingPatient;
-import com.alextherapeutics.model.TriggerCodeSystem;
+import com.alextherapeutics.model.TriggerCode;
 import org.hl7.fhir.r4.model.CodeableConcept;
 import org.hl7.fhir.r4.model.Coding;
 import org.hl7.fhir.r4.model.StringType;
@@ -27,7 +27,7 @@ class ProfileSpecificValidatorFactoryTest {
         var patient = new SelfReportedNicotineUsingPatient();
         patient.setActive(true);
         var codeable = new CodeableConcept();
-        codeable.setCoding(Arrays.asList(new Coding().setCode(TriggerCodeSystem.coffee.getCode())));
+        codeable.setCoding(Arrays.asList(new Coding().setCode(TriggerCode.coffee.getCode())));
         patient.getEffectiveNicotineIntervention().add(
                 new StringType("drink-water")
         );

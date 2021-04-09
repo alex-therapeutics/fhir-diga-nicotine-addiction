@@ -5,6 +5,7 @@ Id: nicotine-treatment-questionnaire
 Title: "Nicotine Treatment Questionnaire"
 Description: "A questionnaire belonging to a nicotine reducing care program."
 Parent: Questionnaire
+* url 1..1 // needed to refer to this canonically in java via the response
 * title 1..1
 * description 1..1 // explain that this is the primary spot to look for "what was asked" for journals
 * purpose 1..1 // a manufacturer should use these fields to explain in a humnan-friendly way what this questionnaire is for and what it does
@@ -17,6 +18,7 @@ The answers are coded in valuesets containing common triggers and effective inte
 """
 InstanceOf: NicotineTreatmentQuestionnaire
 * status = #active
+* url = "http://my-url/Questionnaire/logging"
 * title = "Logging"
 * description = 
 """

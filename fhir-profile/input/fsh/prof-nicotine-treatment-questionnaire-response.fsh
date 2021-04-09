@@ -24,6 +24,7 @@ InstanceOf: NicotineTreatmentQuestionnaireResponse
 Instance: QuestionnaireExample
 InstanceOf: NicotineTreatmentQuestionnaire
 Usage: #inline
+* url = "http://my-url/Questionnaire/logging"
 * title = "Logging a trigger"
 * description = "This questionnaire asks the patient what they are feeling or which situation they are in right now"
 * purpose = "This enables the patient to understand their own triggers, as well as for the DiGA to gain information on which triggers are common for this patient"
