@@ -77,21 +77,25 @@ public class PatientTreatmentDataBundleFactory {
                 .patient(patient)
                 .condition(condition)
                 .plan(plan)
-                .questionnaires(
-                        data.getQuestionnaireResponses()
-                                .stream()
-                                .map(responses -> {
-                                    var questionnaire = responses.getQuestionnaire();
-                                    questionnaire.setId(UUID.randomUUID().toString());
-                                    return questionnaire;
-                                })
-                                .collect(Collectors.toList())
-                )
+                .questionnaires(getNonDuplicateQuestionnaires(data.getQuestionnaireResponses()))
                 .questionnairesResponses(
                         data.getQuestionnaireResponses()
                                 .stream().map(response -> createResponse(response, patient)).collect(Collectors.toList())
                 )
                 .build();
+    }
+    private List<NicotineTreatmentQuestionnaire> getNonDuplicateQuestionnaires(List<PatientTreatmentData.NicotineTreatmentQuestionnaireResponse> responses) {
+        return responses.stream().map(PatientTreatmentData.NicotineTreatmentQuestionnaireResponse::getQuestionnaire)
+                .map(Questionnaire::getUrl)
+                .distinct()
+                .map(
+                        url -> responses.stream().map(PatientTreatmentData.NicotineTreatmentQuestionnaireResponse::getQuestionnaire)
+                                .filter(questionnaire -> url.equals(questionnaire.getUrl()))
+                                .map(questionnaire -> (NicotineTreatmentQuestionnaire) questionnaire.setId(UUID.randomUUID().toString()))
+                                .findAny()
+                                .orElse(null)
+                )
+                .collect(Collectors.toList());
     }
     private NicotineTreatmentQuestionnaireResponse createResponse(PatientTreatmentData.NicotineTreatmentQuestionnaireResponse from, SelfReportedNicotineUsingPatient patient) {
         var response = new NicotineTreatmentQuestionnaireResponse();
@@ -204,27 +208,17 @@ public class PatientTreatmentDataBundleFactory {
                 .setTitle("Nicotine usage treatment plan")
                 .addEntry(new Reference(fhirData.getPlan()));
 
-        var questionnaireData = fhirData.getQuestionnaires().stream()
-                .map(
-                        questionnaire -> new Composition.SectionComponent()
-                                .setTitle("Questionnaire definition")
-                                .addEntry(new Reference(questionnaire))
-                ).collect(Collectors.toList());
+        var questionnaireData = new Composition.SectionComponent().setTitle("Questionnaire definitions");
+        fhirData.getQuestionnaires().stream().map(Reference::new).forEach(questionnaireData::addEntry);
+        var responseData = new Composition.SectionComponent().setTitle("Questionnaire responses");
+        fhirData.getQuestionnairesResponses().stream().map(Reference::new).forEach(responseData::addEntry);
 
-        var responseData = fhirData.getQuestionnairesResponses().stream()
-                .map(
-                        response -> new Composition.SectionComponent()
-                                .setTitle("Questionnaire responses")
-                                .addEntry(new Reference(response))
-                ).collect(Collectors.toList());
-
-        List<Composition.SectionComponent> sections = new ArrayList<>();
-        sections.addAll(Arrays.asList(
+        return Arrays.asList(
                 patientData,
                 conditionData,
-                planData));
-        sections.addAll(questionnaireData);
-        sections.addAll(responseData);
-        return sections;
+                planData,
+                questionnaireData,
+                responseData
+        );
     }
 }

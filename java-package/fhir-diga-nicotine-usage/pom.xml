@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>fhir-diga-nicotine-usage</artifactId>
+        <artifactId>fhir-diga-nicotine-usage-parent</artifactId>
         <groupId>com.alextherapeutics</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fhir</artifactId>
+    <artifactId>fhir-diga-nicotine-usage</artifactId>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.alextherapeutics</groupId>
-            <artifactId>annotation</artifactId>
+            <artifactId>fhir-diga-nicotine-usage-annotation</artifactId>
         </dependency>
         <dependency>
             <groupId>ca.uhn.hapi.fhir</groupId>
@@ -82,7 +82,7 @@
                         </path>
                         <path>
                             <groupId>com.alextherapeutics</groupId>
-                            <artifactId>annotation</artifactId>
+                            <artifactId>fhir-diga-nicotine-usage-annotation</artifactId>
                             <version>${project.version}</version>
                         </path>
                     </annotationProcessorPaths>

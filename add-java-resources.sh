@@ -5,7 +5,7 @@
 # to be used to create these resources in java
 ##########
 
-RES_PATH=java-package/fhir/src/main/resources/fhir
+RES_PATH=java-package/fhir-diga-nicotine-usage/src/main/resources/fhir
 FHIR_PATH=fhir-profile/fsh-generated/resources
 cd fhir-profile \
     && sushi . \

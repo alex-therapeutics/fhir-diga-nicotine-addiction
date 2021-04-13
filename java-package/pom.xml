@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.alextherapeutics</groupId>
-    <artifactId>fhir-diga-nicotine-usage</artifactId>
+    <artifactId>fhir-diga-nicotine-usage-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>annotation</module>
-        <module>fhir</module>
+        <module>fhir-diga-nicotine-usage-annotation</module>
+        <module>fhir-diga-nicotine-usage</module>
     </modules>
 
     <properties>
@@ -24,7 +24,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.alextherapeutics</groupId>
-                <artifactId>annotation</artifactId>
+                <artifactId>fhir-diga-nicotine-usage-annotation</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
