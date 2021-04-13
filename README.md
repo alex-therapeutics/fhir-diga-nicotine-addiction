@@ -4,12 +4,26 @@ This repository contains sources for
 a) the FHIR profile that defines how data should be structured (`fhir-profile`)
 b) the [implementation guide](https://simplifier.net/guide/self-reported-nicotine-usage-diga/home) written on the Simplify project page (`implementation-guide`)
 c) the written Standard (`document`)
+d) a Java library which can be used to implement the standard in a DiGA backend (`java-package`)
+
+## Usage
+The Standard is a document which can be read and used to implement a valid DiGA data export.
+
+How to use the Java library which facilitates implementing the Standard can be read in its [readme](java-package/README.md).
 
 ## Releases
-Releases contain the Standard in PDF format and the FHIR Profile artefacts. (todo)
+
+Releases prefixed with `standard-` contain the Standard in PDF format and the FHIR Profile artefacts
+
+Releases prefixed with `java-` contain the latest java library release.
 
 ## Contributions
+
+## To the standard
 The standard with the FHIR profiles are actively maintained by the team at Alex Therapeutics. However, contributions are welcome from other actors who wish to use the standard. For example, if you have certain extensions you need to make for your use-case, we will happily accept PRs which modify the profiles and add to the text in the Standard, and then coordinate a new release of the Standard. You probably want to open an Issue first on this repository so that we can discuss the change. Note that any changes that include inserting new mandatory attributes (`1..1`) will likely be rejected, as that constitutes a breaking change for all implementers. However, any optional extensions or additions to value code sets can be added to the Standard without too much difficulty.
+
+## To the java library
+The library is also maintained by the team at Alex Therapeutics. Contributions are welcome. Open an Issue if you wish to report a bug or request a feature, or submit a Pull Request if you wish to address one of the issues!
 
 ## Standard Build Instructions
 The Standard PDF is written and generated using LaTEX. You need a TeX environment and something like pdflatex to generate it.
