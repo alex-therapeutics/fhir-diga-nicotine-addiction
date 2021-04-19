@@ -14,14 +14,17 @@ jobs:
         with:
           java-version: 11
       - uses: actions/cache@v2
+        if: ${{ startsWith(github.ref, 'java-') }}
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - run: mvn org.codehaus.mojo:versions-maven-plugin:2.7:set -DnewVersion=${GITHUB_REF##*/}
+      - run: mvn org.codehaus.mojo:versions-maven-plugin:2.7:set -DnewVersion=${GITHUB_REF##java-}
+        if: ${{ startsWith(github.ref, 'java-') }}
         working-directory: ${{env.workdir}}
       - run: mvn -Prelease deploy
+        if: ${{ startsWith(github.ref, 'java-') }}
         working-directory: ${{env.workdir}}
         env:
           GITHUB_TOKEN: ${{ github.token }}
