@@ -152,7 +152,7 @@
             <id>github</id>
             <name>Github Packages</name>
 <!--            <url>https://maven.pkg.github.com/alex-therapeutics/fhir-diga-nicotine-addiction</url>-->
-            <url>https://maven.pkg.github.com/fongie/fhir-diga-nicotine-addiction</url>
+            <url>https://maven.pkg.github.com/fongie/fhir-diga-nicotine-usage</url>
         </repository>
     </distributionManagement>
     <profiles>
