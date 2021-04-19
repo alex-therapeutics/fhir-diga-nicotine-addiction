@@ -21,16 +21,17 @@
     <parent>
         <artifactId>fhir-diga-nicotine-usage-parent</artifactId>
         <groupId>com.alextherapeutics</groupId>
-        <version>0-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>fhir-diga-nicotine-usage</artifactId>
+    <artifactId>fhir-diga-nicotine-usage-annotation</artifactId>
 
-    <name>FHIR DiGA Nicotine Usage Library</name>
+    <name>FHIR DiGA Nicotine Usage Parent</name>
     <url>https://github.com/alex-therapeutics/fhir-diga-nicotine-addiction</url>
     <description>
-        Java library to implement the standard for exporting patient data for DiGAs treating nicotine addiction using CBT.
+        Annotation module for a java library to implement the standard for exporting patient data for DiGAs treating nicotine addiction using CBT.
+        To use the library, you should import the 'fhir-diga-nicotine-usage' module only.
     </description>
 
     <licenses>
@@ -62,14 +63,9 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <maven.deploy.skip>false</maven.deploy.skip>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.alextherapeutics</groupId>
-            <artifactId>fhir-diga-nicotine-usage-annotation</artifactId>
-        </dependency>
         <dependency>
             <groupId>ca.uhn.hapi.fhir</groupId>
             <artifactId>hapi-fhir-structures-r4</artifactId>
@@ -79,65 +75,30 @@
             <artifactId>hapi-fhir-base</artifactId>
         </dependency>
         <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-validation</artifactId>
+            <groupId>com.google.auto.service</groupId>
+            <artifactId>auto-service</artifactId>
         </dependency>
         <dependency>
-            <groupId>ca.uhn.hapi.fhir</groupId>
-            <artifactId>hapi-fhir-validation-resources-r4</artifactId>
+            <groupId>com.squareup</groupId>
+            <artifactId>javapoet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
-
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                    <encoding>UTF-8</encoding>
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                        <path>
-                            <groupId>com.alextherapeutics</groupId>
-                            <artifactId>fhir-diga-nicotine-usage-annotation</artifactId>
-                            <version>${project.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
-                </configuration>
-            </plugin>
-        </plugins>
+    <resources>
+        <resource>
+            <directory>../fhir-diga-nicotine-usage/src/main/resources</directory>
+            <filtering>true</filtering>
+        </resource>
+    </resources>
     </build>
 
 </project>

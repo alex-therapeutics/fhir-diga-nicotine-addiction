@@ -23,7 +23,7 @@
     <groupId>com.alextherapeutics</groupId>
     <artifactId>fhir-diga-nicotine-usage-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0-SNAPSHOT</version>
     <modules>
         <module>fhir-diga-nicotine-usage-annotation</module>
         <module>fhir-diga-nicotine-usage</module>
@@ -151,8 +151,7 @@
         <repository>
             <id>github</id>
             <name>Github Packages</name>
-<!--            <url>https://maven.pkg.github.com/alex-therapeutics/fhir-diga-nicotine-addiction</url>-->
-            <url>https://maven.pkg.github.com/fongie/fhir-diga-nicotine-usage</url>
+           <url>https://maven.pkg.github.com/alex-therapeutics/fhir-diga-nicotine-addiction</url>
         </repository>
     </distributionManagement>
     <profiles>
