@@ -1,3 +1,7 @@
+# Archived
+
+This repository has been archived since the Diga MIO FHIR toolkit is out, you need to use that instead. The simplifier project referenced below has been removed.
+
 # FHIR Profile & Standard for DiGAs that treat nicotine addiction using CBT
 
 This repository contains sources for
